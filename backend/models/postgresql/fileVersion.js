@@ -1,0 +1,26 @@
+const { Sequelize, DataTypes } = require('sequelize');
+const { sequelize } = require('../../config/database/database');
+
+const FileVersion = sequelize.define('FileVersion', {
+  file_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Files',
+      key: 'id'
+    }
+  },
+  version_number: {
+    type: DataTypes.DECIMAL(4, 2),
+    allowNull: false
+  },
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  }
+}, {
+  timestamps: true,
+  tableName: 'file_versions'
+});
+
+module.exports = FileVersion;
