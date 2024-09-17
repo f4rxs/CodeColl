@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/database/database');
-
+const Project = require('./project');
+const User = require('./user');
 const Collaborator = sequelize.define('Collaborator', {
   project_id: {
     type: DataTypes.INTEGER,
@@ -20,11 +21,14 @@ const Collaborator = sequelize.define('Collaborator', {
   },
   role: {
     type: DataTypes.STRING,
-    allowNull: false 
+    allowNull: false
   }
 }, {
   timestamps: true,
-  tableName: 'project_collaborators'
-});
+  tableName: 'project_collaborators',
+  createdAt : "added_at",
+  updatedAt : false
 
+});
+Collaborator.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
 module.exports = Collaborator;

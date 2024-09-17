@@ -2,9 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const {sequelize, connectMongoDB} = require('./config/database/database');
+const { sequelize, connectMongoDB } = require('./config/database/database');
 const userRoutes = require('../backend/routes/userRoutes');
-
+const projectRoutes = require('../backend/routes/projectRoutes');
+const fileRoutes = require('../backend/routes/fileRoutes');
+const projectCollaboratorRoutes = require('../backend/routes/projectCollaboratorRoutes');
+const fileVersionRoutes = require('../backend/routes/fileVersionRoutes');
 app.use(cors());
 app.use(express.json());
 
@@ -14,7 +17,11 @@ app.get('/CodeColl', (req, res) => {
     res.send('Welcome');
 });
 
-app.use('/CodeColl',userRoutes);
+app.use('/CodeColl', userRoutes);
+app.use('/CodeColl', projectRoutes);
+app.use('/CodeColl', fileRoutes);
+app.use('/CodeColl',projectCollaboratorRoutes);
+app.use('/CodeColl',fileVersionRoutes);
 
 sequelize.authenticate()
     .then(() => {

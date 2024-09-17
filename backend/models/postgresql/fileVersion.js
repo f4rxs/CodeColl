@@ -14,13 +14,15 @@ const FileVersion = sequelize.define('FileVersion', {
     type: DataTypes.DECIMAL(4, 2),
     allowNull: false
   },
-  content: {
+  context: {
     type: DataTypes.TEXT,
     allowNull: false
   }
 }, {
   timestamps: true,
-  tableName: 'file_versions'
+  tableName: 'file_versions',
+  createdAt : 'created_at',
+ 
 });
 
 module.exports = FileVersion;
