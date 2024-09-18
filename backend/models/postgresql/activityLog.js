@@ -24,7 +24,9 @@ const ActivityLog = sequelize.define('ActivityLog', {
   }
 }, {
   timestamps: true,
-  tableName: 'activity_logs'
+  tableName: 'activity_logs',
+  createdAt : 'created_at',
+  updatedAt : false
 });
 
 module.exports = ActivityLog;

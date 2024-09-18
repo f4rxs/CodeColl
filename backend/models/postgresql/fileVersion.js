@@ -22,7 +22,10 @@ const FileVersion = sequelize.define('FileVersion', {
   timestamps: true,
   tableName: 'file_versions',
   createdAt : 'created_at',
+  updatedAt : false
  
 });
+
+
 
 module.exports = FileVersion;

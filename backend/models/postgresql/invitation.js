@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/database/database');
+const User = require('../postgresql/user');
+const Project = require('../postgresql/project');
 
 const Invitation = sequelize.define('Invitation', {
   inviter_id: {
@@ -34,5 +36,9 @@ const Invitation = sequelize.define('Invitation', {
   timestamps: true,
   tableName: 'invitations'
 });
+
+Invitation.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+Invitation.belongsTo(Project, { foreignKey: 'id', as: 'project' });
+
 
 module.exports = Invitation;
