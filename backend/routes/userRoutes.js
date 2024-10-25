@@ -1,80 +1,28 @@
 const express = require('express');
-const {
-    registerUserController,
-    getUserByIdController,
-    findAllUsersController,
-    updateUserController,
-    deleteUserController,
-    updateUserEmailController,
-    authenticateUserController,
-    refreshTokenController,
-    getUserProfileController,
-    updateUserBioController,
-    updateUSerSkillsController,
-    changeUserPasswordController,
-    resetPasswordController,
-    confirmEmailController,
-    searchUserByEmailController,
-    searchUserByUsernameController,
-    generateEmailConfirmationTokenController,
-    updateUserProfilePicController
-} = require('../controllers/userController');
-
 const router = express.Router();
+const userController = require('../src/User/userController');
+const authenicateToken = require('../middleware/auth');
 
-// User Registration
-router.post('/user', registerUserController); // tested
-
-// Get User by ID
-router.get('/user/:id', getUserByIdController); // tested
-
-// Get All Users
-router.get('/users', findAllUsersController); // tested
-
-// Update User
-router.put('/user/:id', updateUserController);
-
-// Update User Email
-router.put('/user/changeEmail/:id', updateUserEmailController);  //tested
-
-// Delete User
-router.delete('/user/:id', deleteUserController); // tested
-
-// Authenticate User
-router.post('/auth/login', authenticateUserController); //tested
-
-// Refresh Token
-router.post('/auth/refresh-token', refreshTokenController); //tested
-
-// Get User Profile
-router.get('/user/profile/:id', getUserProfileController); //("Error retrieving user profile: Argument passed to findByPk is invalid: [object Object]")
-
-// Update User Bio
-router.put('/user/bio/:id', updateUserBioController); // ("Failed to update the user's bio: invalid input syntax for type integer: \"UOB computer Sceince\"")
+const validateDTO = require('../utils/validateDTO');
 
 
-// Update User Skills
-router.put('/user/skills/:id', updateUSerSkillsController); //same error above
+// GET ROUTES (4/5)
+router.get('/:id', authenicateToken, userController.getUserByIdController); // tested*
+router.get('/', authenicateToken, userController.findAllUsersController); // tested*
+router.get('/search/email', authenicateToken, userController.searchUserByEmailController); //tested*
+router.get('/search/username', authenicateToken, userController.searchUserByUsernameController); //tested*
+router.get('/profile/:id', authenicateToken, userController.getUserProfileController); // will figure it out when i do the front end for it
 
-// Change User Password
-router.put('/user/change-password/:id', changeUserPasswordController); //tested
+// PUT ROUTES (5/5)
+router.put('/:id', authenicateToken,userController.updateUserController); //tested*
+router.put('/changeEmail/:id', authenicateToken, userController.updateUserEmailController);  //tested* wokring fine but the email confirmation may be a logical issue
+router.put('/bio/:id', authenicateToken, userController.updateUserBioController); // tested*
+router.put('/skills/:id', authenicateToken, userController.updateUSerSkillsController); //tested*
+router.put('/change-password/:id', authenicateToken, userController.changeUserPasswordController); //tested* (when the user changes the pass it should log them out and destroy the token)
+router.put('/profile-pic/:id', authenicateToken, userController.updateUserProfilePicController); // tested* (might implement a logic to actually get real images)
 
-// Reset Password
-router.post('/user/reset-password', resetPasswordController); //"error": "Error resetting password: Missing credentials for \"PLAIN\""
+// Delete User (1/1)
+router.delete('/:id',authenicateToken ,userController.deleteUserController); // tested*
 
-// Confirm Email
-router.post('/user/confirm-email', confirmEmailController); // idk why the token i am getting is invalid
-
-// Search User by Email
-router.get('/user/search/email', searchUserByEmailController); //tested
-
-// Search User by Username
-router.get('/user/search/username', searchUserByUsernameController); //tested
- 
-// Generate Email Confirmation Token
-router.post('/user/confirmation-token/:userId', generateEmailConfirmationTokenController);//tested
-
-// Update User Profile Picture
-router.put('/user/profile-pic/:id', updateUserProfilePicController); // tested (might implement a logic to actually get real images)
 
 module.exports = router;

@@ -1,23 +1,17 @@
 const express = require('express');
-const {
-    startSessionController,
-    endSessionController,
-    getActiveSessionsByProjectController,
-    getAllSessionsByProjectController
-} = require('../controllers/collaborationSessionController');
+const collaborationSessionController = require('../src/CollaborationSession/collaborationSessionController');
 
 const router = express.Router();
 
-// POST route to start a collaboration session
-router.post('/collaboration-session', startSessionController); //tested
+//POST ROUTES
+router.post('/:project_id', collaborationSessionController.startSessionController); //tested
 
-// PUT route to end a collaboration session
-router.put('/collaboration-end/:session_id', endSessionController);  //tested
+//GET ROUTES
+router.get('/active/:project_id', collaborationSessionController.getActiveSessionsByProjectController); //tested
+router.get('/all/:project_id', collaborationSessionController.getAllSessionsByProjectController); //tested
 
-// GET route to get active sessions by project
-router.get('/collaboration-session/active/:project_id', getActiveSessionsByProjectController); //tested
+//PUT ROUTES
+router.put('/end/:session_id', collaborationSessionController.endSessionController);  //tested
 
-// GET route to get all sessions by project
-router.get('/collaboration-session/all/:project_id', getAllSessionsByProjectController); //tested
 
 module.exports = router;

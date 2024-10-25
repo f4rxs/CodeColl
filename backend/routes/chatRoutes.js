@@ -1,16 +1,15 @@
 const express = require('express');
-const {
-    sendMessageController,
-    getChatBySessionController,
-    getChatByUserInSessionController
-} = require('../controllers/chatController');
+const chatController= require('../src/Chat/chatController');
 
 const router = express.Router();
 
-router.post('/chat', sendMessageController); //tested
+//GET ROUTES
+router.get('/session/:session_id', chatController.getChatBySessionController); //tested
+router.get('/session/:session_id/user/:user_id', chatController.getChatByUserInSessionController); // tested
 
-router.get('/chat/session/:session_id', getChatBySessionController); //tested
+//POST ROUTES
+router.post('/', chatController.sendMessageController); //tested
 
-router.get('/chat/session/:session_id/user/:user_id', getChatByUserInSessionController); // tested
+
 
 module.exports = router;

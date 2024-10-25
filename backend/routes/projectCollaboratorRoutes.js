@@ -1,22 +1,23 @@
-const {
-    addCollaboratorController,
-    findCollaboratorsByProjectController,
-    updateCollaboratorRoleController,
-    removeCollaboratorController , 
-} = require('../controllers/projectCollaboratorController');
+const projectCollaboratorsController = require('../src/ProjectCollaborator/projectCollaboratorController');
 
 const express = require('express');
 
 const router = express.Router();
 
-router.get('/collab/project/:projectId', findCollaboratorsByProjectController); // tested
 
-router.put('/collab-role', updateCollaboratorRoleController);  //tested
+//GET ROUTES (2/2)
+router.get('/:projectId', projectCollaboratorsController.findCollaboratorsByProjectController); // tested
+router.get('/usernames/:projectId', projectCollaboratorsController.getCollaboratorUsernamesController); //tested
 
-router.delete('/collab-remove', removeCollaboratorController);  //tested
+//POST ROUTES (1/1)
+router.post('/:projectId/:userId', projectCollaboratorsController.addCollaboratorController); // tested
 
-router.post('/collab', addCollaboratorController); // tested
+//PUT ROUTES  (1/1)
+router.put('/:projectId/:userId', projectCollaboratorsController.updateCollaboratorRoleController);  //tested
 
-router.get('/project/:projectId/collab/usernames', findCollaboratorsByProjectController); //tested
+//DELETE (1/1)
+router.delete('/:projectId/:userId', projectCollaboratorsController.removeCollaboratorController);  //tested
+
+
 
 module.exports = router;

@@ -1,0 +1,36 @@
+/* MainPage.css */
+
+/* App Bar styles */
+.appBar {
+    background-color: #9c3509;
+    color: #fff;
+}
+
+.toolbar {
+    justify-content: space-between;
+}
+
+/* Main Button styles */
+.mainButton {
+    background-color: #2ea44f;
+    color: #fff;
+}
+
+.mainButton:hover {
+    background-color: #22863a;
+}
+
+/* Section styles */
+.section {
+    padding: 64px 16px; /* Adjusted for a responsive layout */
+    background-color: #f6f8fa;
+    text-align: center;
+}
+
+/* Footer styles */
+.footer {
+    background-color: #107fee;
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+}

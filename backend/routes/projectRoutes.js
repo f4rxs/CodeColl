@@ -1,55 +1,28 @@
 const express = require('express');
-const {
-    createProjectController,
-    findProjectByIdController,
-    findProjectsByUserController,
-    updateProjectController,
-    deleteProjectController,
-    searchProjectsController,
-    getProjectOverviewController,
-    archiveProjectController,
-    restoreArchivedProjectController,
-    duplicateProjectController,
-    getArchivedProjectsController,
-    getUserOwnedProjectsController,
-} = require('../controllers/projectController');
+const projectController = require('../src/Project/projectController');
 
 const router = express.Router();
 
-// Create a new project
-router.post('/project', createProjectController); // tested
+//8 routes to get fixed
 
-// Find a project by ID
-router.get('/project/:id', findProjectByIdController); //tested
+//GET ROUTES
+router.get('/:id', projectController.findProjectByIdController); //tested*
+router.get('/search/:term', projectController.searchProjectsController);//tested*
+router.get('/user/:userId', projectController.findProjectsByUserController);  //tested*
+router.get('/overview/:id', projectController.getProjectOverviewController); //tested*
+router.get('/project/archived/', projectController.getArchivedProjectsController); //tested*
 
-// Find all projects owned by a user
-router.get('/project/user/:userId', findProjectsByUserController);  //tested
+//POST ROUTES 
+router.post('/duplicate/:id', projectController.duplicateProjectController); //tested*
+router.post('/', projectController.createProjectController); // tested*
 
-// Update a project (added :id to the URL)
-router.put('/project/:id', updateProjectController); //tested
+//PUT ROUTES 
+router.put('/:id', projectController.updateProjectController); //tested*
+router.put('/archive/:id', projectController.archiveProjectController);  //tested*
+router.put('/restore/:id', projectController.restoreArchivedProjectController); //tested*
 
-// Delete a project
-router.delete('/project/:id', deleteProjectController); //tested
+//DELETE ROUTES 
+router.delete('/:id', projectController.deleteProjectController); //tested*
 
-// Search for projects by term
-router.get('/project-search', searchProjectsController); //tested
-
-// Get project overview
-router.get('/project-overview/:id', getProjectOverviewController); // test should be after finishing the tables associated to it
-
-// Archive a project
-router.put('/project-archive/:id', archiveProjectController);  //tested (working as a route but acctually no column in the table 'projects' is called archeived)
-
-// Restore an archived project
-router.put('/project-restore/:id', restoreArchivedProjectController); // same for this
-
-// Duplicate a project
-router.post('/project-duplicate/:id', duplicateProjectController); //tested
-
-// Get all archived projects
-router.get('/project-archived', getArchivedProjectsController); // same as the mentioned issue related to archeive feature
-
-// Get all projects owned by a user
-router.get('/user-projects/:userId', getUserOwnedProjectsController); // need to implement the logic of role (if it owner or user)
 
 module.exports = router;

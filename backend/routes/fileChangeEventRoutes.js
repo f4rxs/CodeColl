@@ -1,16 +1,15 @@
 const express = require('express');
-const {
-    logFileChangeEventController,
-    getFileChangeEventsBySessionController,
-    getFileChangeEventsByFileController
-} = require('../controllers/fileChangeEventController');
+const fileChangeController = require('../src/FileChangeEvent/fileChangeEventController');
 
 const router = express.Router();
 
-router.post('/file-change-event', logFileChangeEventController); // tested
 
-router.get('/file-change-event/session/:session_id', getFileChangeEventsBySessionController); // tested
+//POST ROUTES
+router.post('/', fileChangeController.logFileChangeEventController); // tested
 
-router.get('/file-change-event/file/:file_id', getFileChangeEventsByFileController); //tested
+//GET ROUTES
+router.get('/session/:session_id', fileChangeController.getFileChangeEventsBySessionController); // tested
+router.get('/:file_id', fileChangeController.getFileChangeEventsByFileController); //tested
+
 
 module.exports = router;

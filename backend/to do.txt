@@ -1,0 +1,3 @@
+-start with basics front end after testing functionalaties
+-draw the role of the users plan 
+-UI design and logo

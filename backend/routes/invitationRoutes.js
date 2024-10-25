@@ -1,22 +1,21 @@
 const express = require('express');
-const {
-    sendInvitationController,
-    findInvitationsByUserController,
-    respondToInvitationController,
-    cancelInvitationController,
-    findAllPendingInvitationsController
-} = require('../controllers/invitationController');
+const invationController = require('../src/Invitation/invitationController');
+const authMiddleware  =require('../middleware/auth');
 
 const router = express.Router();
 
-router.post('/invitation', sendInvitationController); // not wokring
+//GET ROUTES 
+router.get('/:inviterId', invationController.findInvitationsByUserController); //tested*
+router.get('/invitations/pending', invationController.findAllPendingInvitationsController); //tested*
 
-router.get('/invitations/:userId', findInvitationsByUserController); // not working
+//POST ROUTES
+router.post('/', authMiddleware,invationController.sendInvitationController); //tested*
 
-router.put('/invitation/:invitationId/respond', respondToInvitationController); 
+//PUT ROUTES
+router.put('/:invitationId/respond', invationController.respondToInvitationController); //tested*
 
-router.delete('/invitation/:invitationId', cancelInvitationController);
+//DELETE ROUTES
+router.delete('/:invitationId', invationController.cancelInvitationController);//tested*
 
-router.get('/invitations/pending', findAllPendingInvitationsController);
 
 module.exports = router;

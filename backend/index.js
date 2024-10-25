@@ -13,6 +13,15 @@ const activtyLogRoutes = require('../backend/routes/activityLogRoutes');
 const chatsRoutes = require('../backend/routes/chatRoutes');
 const fileChangeEventRoutes = require('../backend/routes/fileChangeEventRoutes');
 const collaborationSessionRoutes = require('../backend/routes/collaborationSessionRoutes');
+const authenicationRoutes = require('../backend/routes/authenticationRoutes');
+
+require('./src/User/user');
+require('./src/Project/project');
+require('./src/ProjectCollaborator/projectCollaborators');
+require('./src/File/file');
+
+
+sequelize.sync();
 app.use(cors());
 app.use(express.json());
 
@@ -22,16 +31,18 @@ app.get('/CodeColl', (req, res) => {
     res.send('Welcome');
 });
 
-app.use('/CodeColl', userRoutes);
-app.use('/CodeColl', projectRoutes);
-app.use('/CodeColl', fileRoutes);
-app.use('/CodeColl', projectCollaboratorRoutes);
-app.use('/CodeColl', fileVersionRoutes);
-app.use('/CodeColl', invitationRoutes);
-app.use('/CodeColl', activtyLogRoutes);
-app.use('/CodeColl', chatsRoutes);
-app.use('/CodeColl', fileChangeEventRoutes);
-app.use('/CodeColl', collaborationSessionRoutes);
+app.use('/users', userRoutes);
+app.use('/projects', projectRoutes);
+app.use('/files', fileRoutes);
+app.use('/project/collaborator', projectCollaboratorRoutes);
+app.use('/file/version', fileVersionRoutes);
+app.use('/invitation', invitationRoutes);
+app.use('/acitivtylog', activtyLogRoutes);
+app.use('/chats', chatsRoutes);
+app.use('/file/change', fileChangeEventRoutes);
+app.use('/collaboration/session', collaborationSessionRoutes);
+app.use('/auth', authenicationRoutes);
+
 sequelize.authenticate()
     .then(() => {
         console.log('PostgreSQL connected');

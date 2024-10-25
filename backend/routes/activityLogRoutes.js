@@ -1,31 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const {
-    logActivityController,
-    findActivitiesByProjectController,
-    findActivitiesByUserController,
-    trackFileEditActivityController,
-    trackCommentActivityController,
-    getActivityOverviewController
-} = require('../controllers/activityLogController');
+const activityLogController = require('../src/ActivityLog/activityLogController');
 
-// Route to log a generic activity
-router.post('/log', logActivityController); //tested
+//GET ROUTES
+router.get('/project/:projectId', activityLogController.findActivitiesByProjectController); // tested
+router.get('/user/:userId/activites', activityLogController.findActivitiesByUserController); //tested
+router.get('/overview/:projectId', activityLogController.getActivityOverviewController);
 
-// Route to get activities for a specific project
-router.get('/project-activites/:projectId', findActivitiesByProjectController); // tested
+//POST ROUTES
+router.post('/', activityLogController.logActivityController); //tested
+router.post('/file/edit/activity', activityLogController.trackFileEditActivityController); 
+router.post('/comment/activity', activityLogController.trackCommentActivityController);
 
-// Route to get activities for a specific user
-router.get('/user-activites/:userId', findActivitiesByUserController); //tested
-
-// Route to log a file edit activity
-router.post('/file-edit-activity', trackFileEditActivityController); 
-
-// Route to log a comment activity
-router.post('/comment-activity', trackCommentActivityController);
-
-// Route to get the activity overview of a project
-router.get('/overview-activity/:projectId', getActivityOverviewController);
 
 
 module.exports = router;
