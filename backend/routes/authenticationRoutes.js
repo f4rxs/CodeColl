@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const authenicationController = require('../src/authentication/authneticationController');
+const {
+    validateSignIn,
+    validateSignUp
+} = require('../src/authentication/authenticationValidator');
 
+const validateRequest = require('../utils/validateRequest');
 
 //POST ROUTES
-router.post('/signin', authenicationController.signinController); //tested*
-router.post('/signup', authenicationController.signupController); // tested*
+router.post('/signin', validateSignIn, validateRequest, authenicationController.signinController); //tested*
+router.post('/signup', validateSignUp, validateRequest, authenicationController.signupController); // tested*
 router.post('/refresh-token', authenicationController.refreshTokenController); //INvalid signature for a valid token
 router.post('/reset-password', authenicationController.resetPasswordController); // will fully implemented in the front end
 

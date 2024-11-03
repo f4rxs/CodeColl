@@ -3,19 +3,24 @@ const Project = require('../Project/project');
 const Collaborator = require('../ProjectCollaborator/projectCollaborators');
 const User = require('../User/user');
 const projectService = {
-    createProject: async (projectData) => {
+     createProject : async (projectData) => {
         try {
             const { owner_id, project_name, description } = projectData;
-
+    
+            // Check if owner exists
+            const ownerExists = await User.findByPk(owner_id);
+            if (!ownerExists) {
+                throw new Error(`User with the id ${owner_id} does not exist`);
+            }
+    
             const newProject = await Project.create(projectData);
             await Collaborator.create({
                 user_id: owner_id,
                 project_id: newProject.id,
                 role: 'Owner',
-                permissions: { can_edit: true, can_lock_files: true, can_manage_collaborators: true } // Define the owner permissions
+                permissions: { can_edit: true, can_lock_files: true, can_manage_collaborators: true }
             });
-
-
+    
             return newProject;
         } catch (error) {
             throw new Error(`Error in creating a project: ${error.message}`);
@@ -161,7 +166,7 @@ const projectService = {
     getArchivedProjects: async () => {
         try {
             const archivedProjects = await Project.findAll({ where: { archived: true } });
-            if(archivedProjects.length===0){
+            if (archivedProjects.length === 0) {
                 throw new Error('No archived projects found');
             }
             return archivedProjects;
@@ -170,7 +175,7 @@ const projectService = {
         }
     },
 
-  
+
 
 }
 
