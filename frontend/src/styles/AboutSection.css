@@ -1,0 +1,17 @@
+.about {
+    padding: 60px 20px; /* Add padding */
+    background-color: #ffffff; /* White background for contrast */
+    text-align: center; /* Center text */
+}
+
+.about h2 {
+    margin-bottom: 20px; /* Space below heading */
+    font-size: 2.5rem; /* Heading size */
+}
+
+.about p {
+    max-width: 800px; /* Limit paragraph width */
+    margin-left: auto;
+    margin-right: auto; /* Center align the paragraph */
+    font-size: 1.1rem; /* Adjust font size */
+}

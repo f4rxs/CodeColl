@@ -1,0 +1,18 @@
+.features {
+    padding: 60px 20px; /* Add padding */
+    background-color: #f9f9f9; /* Light background for contrast */
+}
+
+.features h2 {
+    margin-bottom: 40px; /* Add space below heading */
+    font-size: 2.5rem; /* Increase heading size */
+}
+
+.feature-item {
+    margin-bottom: 20px; /* Space between items */
+}
+
+.feature-icon {
+    color: #007acc; /* Set icon color */
+    margin-bottom: 10px; /* Space below icon */
+}

@@ -1,0 +1,96 @@
+/* Hero Section Styling */
+.hero {
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center the content */
+    align-items: center; /* Align items vertically */
+    padding: 100px 20px; /* Add padding to the section */
+    flex-wrap: wrap; /* Allow items to stack on smaller screens */
+}
+
+.value-prop-intro h2 {
+    font-size: 2rem; /* Adjust heading size */
+    margin-bottom: 1rem; /* Space below the heading */
+}
+
+.value-prop-intro p {
+    margin-bottom: 1.5rem; /* Space below the paragraph */
+}
+
+.secondary-value-prop {
+    margin-top: 1rem; /* Space above secondary props */
+}
+
+.hero-button {
+    margin-top: 1rem; /* Add space above the button */
+}
+
+.swimlane-image {
+    width: 100%; /* Full width for responsive image */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 90%; /* Limit max-width to avoid overflow */
+    margin-left: auto; /* Center image in the column */
+    display: block; /* Ensure image is block level */
+}
+
+/* Supported Languages Section */
+.languages-section {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    width: 100%;
+    flex-wrap: wrap; /* Allow items to wrap to new lines */
+    margin-top: 40px; /* Space above the languages section */
+}
+
+.languages-section h2, .languages-section p {
+    margin-bottom: 16px;
+}
+
+.languages {
+    display: flex; /* Flexbox layout for language items */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: 15px; /* Space between language items */
+}
+
+.language-item {
+    display: flex; /* Flexbox for each language item */
+    align-items: center; /* Center items vertically */
+    margin: 10px; /* Space around each language item */
+    padding: 6px 12px; /* Padding within each item */
+    border-radius: 4px; /* Slight rounding of item borders */
+    background-color: #f4f4f4; /* Light background for language items */
+}
+
+.languages img {
+    width: 24px; /* Set a standard width for icons */
+    height: 24px; /* Set a standard height for icons */
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.languages code {
+    font-size: 0.9rem; /* Slightly smaller text for language names */
+    color: #333; /* Text color for language names */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: center;
+        text-align: center; /* Center text on smaller screens */
+    }
+
+    .languages-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .languages {
+        justify-content: center; /* Center languages on smaller screens */
+    }
+
+    .swimlane-image {
+        max-width: 100%; /* Full width on small screens */
+        margin: 20px 0; /* Space around the image */
+    }
+}

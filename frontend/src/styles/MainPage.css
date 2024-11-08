@@ -1,36 +1,67 @@
-/* MainPage.css */
-
-/* App Bar styles */
-.appBar {
-    background-color: #9c3509;
-    color: #fff;
-}
-
-.toolbar {
-    justify-content: space-between;
-}
-
-/* Main Button styles */
-.mainButton {
-    background-color: #2ea44f;
-    color: #fff;
-}
-
-.mainButton:hover {
-    background-color: #22863a;
-}
-
-/* Section styles */
-.section {
-    padding: 64px 16px; /* Adjusted for a responsive layout */
-    background-color: #f6f8fa;
+/* styles/MainPage.css */
+.main-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* styles/HeroSection.css */
+  .hero {
+    background: #0d1117;
+    color: white;
     text-align: center;
-}
-
-/* Footer styles */
-.footer {
-    background-color: #107fee;
-    color: #fff;
-    padding: 16px;
+    padding: 50px 20px;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+  
+  .hero-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #61dafb;
+    color: #282c34;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  /* styles/FeaturesSection.css */
+  .features {
+    padding: 50px 20px;
+    background: #f4f4f4;
     text-align: center;
-}
+  }
+  
+  .features-list {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .feature-item {
+    width: 30%;
+    padding: 20px;
+    background: white;
+    border-radius: 5px;
+  }
+  
+  /* styles/AboutSection.css */
+  .about {
+    padding: 50px 20px;
+    background: #e0f7fa;
+    text-align: center;
+  }
+  
+  /* styles/Footer.css */
+  .footer {
+    padding: 20px;
+    text-align: center;
+    background: #0d1117;
+    color: white;
+  }
+  
+  .footer .social-links a {
+    color: #61dafb;
+    margin: 0 10px;
+    text-decoration: none;
+  }

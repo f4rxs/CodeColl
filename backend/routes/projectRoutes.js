@@ -10,6 +10,7 @@ const {
     validateProjectUpdate,
 } = require('../src/Project/projectValidators');
 
+const auth = require('../middleware/auth');
 //GET ROUTES
 router.get('/:id', validateProjectId, validateRequest, projectController.findProjectByIdController); //tested*
 router.get('/search/:term', validateSearchTerm, validateRequest, projectController.searchProjectsController);//tested*

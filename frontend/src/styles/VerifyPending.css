@@ -1,0 +1,102 @@
+/* Container for the entire page */
+.verify-pending-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #0d1117; 
+    text-align: center;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #f0f6fc;
+}
+
+/* Header for the page */
+.verify-pending-header {
+    font-size: 3rem; 
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); 
+}
+
+/* Description text */
+.verify-pending-description {
+    font-size: 1.2rem;
+    color: #e0e4e8;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Slight shadow to make it more readable */
+}
+
+.spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #ff8c00; 
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite; 
+    margin-top: 30px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Message while waiting for verification */
+.verify-pending-message {
+    font-size: 1.1rem;
+    color: #f0f6fc;
+    margin-top: 20px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* ToastContainer custom styles */
+.Toastify__toast-container {
+    font-family: 'Roboto', sans-serif;
+    z-index: 9999; /* Make sure toast appears above other content */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .verify-pending-container {
+        padding: 15px;
+    }
+
+    .verify-pending-header {
+        font-size: 2rem; /* Smaller header for mobile */
+    }
+
+    .verify-pending-description {
+        font-size: 1rem;
+    }
+
+    .verify-pending-message {
+        font-size: 1rem;
+    }
+}
+
+/* Cool glow effect for hoverable text */
+.verify-pending-header:hover {
+    text-shadow: 0 0 20px #ff8c00, 0 0 30px #ff8c00, 0 0 40px #ff8c00; /* Add glow effect on hover */
+    transition: text-shadow 0.3s ease-in-out; /* Smooth transition for the glow */
+}
+
+.verify-pending-message {
+    font-style: italic;
+    font-weight: 300;
+    animation: pulseText 1.5s infinite ease-in-out;
+}
+
+/* Pulse text animation for message */
+@keyframes pulseText {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+

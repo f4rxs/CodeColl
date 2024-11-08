@@ -1,0 +1,94 @@
+/* Sidebar container */
+.dashboard-sidebar {
+    position: fixed;
+    top: 66px;
+    left: 0;
+    width: 240px;
+    height: calc(100vh - 66px);
+    background-color: #151b23;
+    color: #fff;
+    padding: 15px;
+    overflow-y: auto;
+  }
+  
+  /* Sidebar content */
+  .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Project title styling */
+  .projects-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #f0f6fc;
+  }
+  
+  /* Search box styling */
+  .search-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #222;
+    color: #f0f6fc;
+    transition: border 0.3s;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Project list styling */
+  .projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .project-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    transition: background-color 0.3s;
+  }
+  
+  .project-item:hover {
+    background-color: #2c2f38;
+  }
+  
+  .project-link {
+    display: flex;
+    align-items: center;
+    color: #f8f9fa;
+    text-decoration: none;
+    width: 100%;
+  }
+  
+  .project-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .project-name {
+    font-size: 14px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .dashboard-sidebar {
+      width: 200px;
+    }
+  }
+  

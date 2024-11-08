@@ -36,12 +36,12 @@ const authenticationService = {
         try {
             const user = await User.findOne({ where: { email } });
             if (!user) {
-                throw new Error(`${email} is an invalid email`);
+                throw new Error(`Email ${email} is invalid`);
             }
 
             const isPasswordValid = await bcrypt.compare(password, user.password_hash);
             if (!isPasswordValid) {
-                throw new Error(`Invalid password for the email ${email}`);
+                throw new Error(`Invalid password for email ${email}`);
             }
 
             if (!user.email_verified) {
@@ -69,21 +69,38 @@ const authenticationService = {
 
     verifyEmail: async (id, token) => {
         try {
-            const user = await User.findByPk(id); 
+            const user = await User.findByPk(id);
             if (!user) {
                 throw new Error('No user found with this ID');
             }
-    
+
             if (user.confirmation_token !== token) {
                 throw new Error('Invalid or expired token');
             }
-    
+
             await user.update({ email_verified: true, confirmation_token: null });
             return { message: 'Email verified successfully' };
         } catch (error) {
             throw new Error(`Error verifying email: ${error.message}`);
         }
     },
+
+    checkEmailVerification: async (id) => {
+        try {
+            const user = await User.findOne({ where: { id } }); 
+                
+            
+            if (!user) {
+                throw new Error('User not found');
+            }
+            
+            return user.email_verified; 
+            
+        } catch (error) {
+            throw new Error('Error checking email verification status');
+        }
+    },
+
 
     resetPassword: async (email) => {
         try {

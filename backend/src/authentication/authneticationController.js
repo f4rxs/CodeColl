@@ -6,27 +6,30 @@ const authenticationController = {
         try {
             const result = await authenticationService.signin(email, password);
             if (result) {
-                res.status(200).json({ message: 'Authentication successul ', token: result.token, user: result.user });
-
+                res.status(200).json({
+                    message: 'Authentication successful',
+                    token: result.token,
+                    user: result.user
+                });
             } else {
                 res.status(401).json({ message: 'Authentication failed' });
             }
         } catch (error) {
-            res.status(500).json({ message: 'Error in authentication user ', error: error.message });
+            res.status(500).json({ message: error.message });
         }
     },
     signupController: async (req, res) => {
         const { username, email, password } = req.body;
         try {
             const user = await authenticationService.signup({ username, email, password });
-            
+
             if (user) {
                 res.status(201).json({ message: 'User created successfully', user });
             } else {
                 res.status(500).json({ message: 'Failed to create user' });
             }
         } catch (error) {
-            res.status(500).json({ message: 'Error in creating user', error: error.message });
+            res.status(500).json({ message: error.message });
         }
     },
     refreshTokenController: async (req, res) => {
@@ -42,12 +45,27 @@ const authenticationController = {
         }
     },
     verifyEmailController: async (req, res) => {
-        const { id, token } = req.params;  
+        const { id, token } = req.params;
         try {
-            const response = await authenticationService.verifyEmail(id, token); 
-            res.status(200).json(response);
+            const response = await authenticationService.verifyEmail(id, token);
+            res.status(200).json({ message: response.message });
         } catch (error) {
             res.status(400).json({ message: 'Email verification failed', error: error.message });
+        }
+    },
+    checkEmailVerificationController: async (req, res) => {
+        const { userId } = req.body; 
+            
+        try {
+            const isVerified = await authenticationService.checkEmailVerification(userId);
+
+            if (isVerified) {
+                return res.status(200).json({ message: 'Email verified' });
+            } else {
+                return res.status(400).json({ message: 'Email verification pending' });
+            }
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
         }
     },
     resetPasswordController: async (req, res) => {
@@ -59,7 +77,7 @@ const authenticationController = {
             res.status(400).json({ message: `Password reset failed`, error: error.message });
         }
     }
-    
+
 }
 
 module.exports = authenticationController;

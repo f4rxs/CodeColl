@@ -1,0 +1,88 @@
+/* Navbar.css */
+
+/* Navbar container */
+.custom-navbar {
+  background-color: #1e1e1e; /* Dark background */
+  min-height: 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  transition: color 0.3s ease, transform 0.3s ease; /* Transition for color and transform */
+}
+
+/* Hover effect for navbar brand */
+.navbar-brand:hover {
+  color: #ffa500; /* Change to your project's accent color */
+  transform: scale(1.1); /* Slightly scale the text */
+  text-shadow: 0 0 10px rgba(255, 165, 0, 0.6); /* Optional glow effect */
+}
+
+/* Navbar links */
+.navbar-links .nav-link {
+  color: #b8b8b8;
+  font-size: 1rem;
+  margin-right: 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-links .nav-link:hover {
+  color: #ffffff;
+}
+
+/* Action buttons */
+.navbar-actions .login-button {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-actions .login-button:hover {
+  color: #b8b8b8;
+  border-color: #b8b8b8;
+}
+
+.login-text {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #ffa500; /* Accent color for login */
+  margin-left: 5px;
+}
+
+.signup-button {
+  color: #ffffff;
+  background-color: #ffa500;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  margin-left: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #ff8c00;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .navbar-links .nav-link,
+  .navbar-actions .login-button,
+  .navbar-actions .signup-button {
+    font-size: 0.85rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+}
