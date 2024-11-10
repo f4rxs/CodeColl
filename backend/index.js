@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./association');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -21,7 +22,11 @@ require('./src/ProjectCollaborator/projectCollaborators');
 require('./src/File/file');
 
 
-sequelize.sync();
+sequelize.sync().then(() => {
+    console.log('Database synced and associations loaded.');
+}).catch((err) => {
+    console.error('Error syncing database:', err);
+});
 app.use(cors());
 app.use(express.json());
 

@@ -34,8 +34,10 @@ const Project = sequelize.define('Project', {
 });
 
 // Project.belongsTo(User, { foreignKey: 'owner_id', as: 'owner' });
-Project.belongsTo(User, { foreignKey: 'owner_id', as: 'projectOwner' });
-Project.hasMany(Collaborator, { foreignKey: 'project_id', as: 'projectAndCollab' });
-Project.hasMany(File, { foreignKey: 'project_id', as: 'projectFiles' });
+
+
+// Project.belongsTo(User, { foreignKey: 'owner_id', as: 'projectOwner' });
+// Project.hasMany(Collaborator, { foreignKey: 'project_id', as: 'projectAndCollab' });
+// Project.hasMany(File, { foreignKey: 'project_id', as: 'projectFiles' });
 
 module.exports = Project;

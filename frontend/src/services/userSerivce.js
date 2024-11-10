@@ -24,9 +24,8 @@ const searchUserByEmail = (email) => {
 };
 
 // Search user by username
-const searchUserByUsername = (username) => {
-    return httpCommon.get('/users/search/username', {
-        params: { username },
+const searchUserByUsername = (term) => {
+    return httpCommon.get(`/users/search/${term}`, {
         headers: { Authorization: getTokenBearer() }
     });
 };

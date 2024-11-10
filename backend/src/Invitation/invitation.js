@@ -39,8 +39,8 @@ const Invitation = sequelize.define('Invitation', {
   updatedAt : false
 });
 
-Invitation.belongsTo(User, { foreignKey: 'inviter_id', as: 'inviterUser' });
-Invitation.belongsTo(User, { foreignKey: 'invitee_id', as: 'inviteeUser' });
-Invitation.belongsTo(Project, { foreignKey: 'project_id', as: 'project' });
+// Invitation.belongsTo(User, { foreignKey: 'inviter_id', as: 'inviterUser' });
+// Invitation.belongsTo(User, { foreignKey: 'invitee_id', as: 'inviteeUser' });
+// Invitation.belongsTo(Project, { foreignKey: 'project_id', as: 'project' });
 
 module.exports = Invitation;

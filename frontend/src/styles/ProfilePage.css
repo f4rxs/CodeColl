@@ -19,6 +19,7 @@ body {
   animation: fadeIn 1.2s ease-in-out;
 }
 
+
 .loading-text {
   color: #f0f6fc;
   font-size: 18px;
@@ -30,7 +31,7 @@ body {
   display: inline-block;
 }
 
-.profile-pic {
+.profile-pic-prof {
   width: 150px;
   height: 150px;
   object-fit: cover;
@@ -104,7 +105,7 @@ body {
 }
 
 .edit-button {
-  margin-top: 50px;
+  margin-top: 60px;
   padding: 12px 24px;
   color: #f0f6fc;
   border: none;

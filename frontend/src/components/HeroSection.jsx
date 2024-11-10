@@ -1,11 +1,11 @@
 import React from "react";
 import '../styles/HeroSection.css';
 import { Button } from "react-bootstrap";
-import ideImage from '../../src/assests/ideDarkImage.png'; // Ensure this path is correct
-import jsImage from '../../src/assests/langauges/js.png';
+import ideImage from '../assests/ideDarkImage.png'; // Ensure this path is correct
+import jsImage from '../assests/langauges/js.png';
 // import tsImage from '../../src/assests/langauges/ts.png';
-import javaImage from '../../src/assests/langauges/java.png';
-import pythonImage from '../../src/assests/langauges/python.png';
+import javaImage from '../assests/langauges/java.png'
+import pythonImage from '../assests/langauges/python.png';
 
 // Import all other language images similarly...
 

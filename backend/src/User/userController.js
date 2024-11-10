@@ -154,18 +154,19 @@ const userController = {
     },
 
     searchUserByUsernameController: async (req, res) => {
-        const { username } = req.body;
+        const { term } = req.params;  
         try {
-            const user = await userService.searchUserByUsername(username);
-            if (user) {
-                res.status(200).json(user);
+            const users = await userService.searchUserByUsername(term);
+            if (users.length > 0) {
+                res.status(200).json(users);
             } else {
-                res.status(404).json({ message: 'User not found' });
+                res.status(404).json({ message: `User with username "${term}" not found` });
             }
         } catch (error) {
             res.status(500).json({ message: 'Error searching for user', error: error.message });
         }
-    },  
+    },
+    
     updateUserProfilePicController: async (req, res) => {
         const userId = req.params.id;
         const { profile_pic } = req.body;

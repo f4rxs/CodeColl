@@ -1,8 +1,10 @@
+const { Op } = require('sequelize');
 const User = require('./user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const { AsyncLocalStorage } = require('async_hooks');
 
 const userService = {
     getUserProfile: async (userId) => {
@@ -134,17 +136,22 @@ const userService = {
             throw new Error(`Error in finding the user with id ${userId}`);
         }
     },
-    searchUserByUsername: async (userName) => {
+    searchUserByUsername: async (term) => {
         try {
-            const user = await User.findOne({ where: { username: userName } });
-            if (!user) {
-                throw new Error(`User with username ${userName} not found`);
-            }
-            return user;
+            const users = await User.findAll({
+                where: {
+                    username: {  
+                        [Op.iLike]: `%${term}%`
+                    }
+                }
+            });
+            
+            return users;  
         } catch (error) {
-            throw new Error(`Error in finding the user with username ${userName}`);
+            throw new Error(`Error finding user with username ${term}: ${error.message}`);
         }
     },
+    
     searchUserByEmail: async (userEmail) => {
         try {
             const user = await User.findOne({ where: { email: userEmail } });

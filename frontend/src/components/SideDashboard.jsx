@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import projectService from '../services/projectService';
+import projectCollaboratorService from '../services/projectCollaboratorService';
 import '../styles/SideDashBoard.css';
 
 const SideDashBoard = ({ userId }) => {
@@ -13,7 +13,7 @@ const SideDashBoard = ({ userId }) => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        const response = await projectService.findProjectsByUser(userId);
+        const response = await projectCollaboratorService.getUserProjectsController(userId);
         setProjects(response.data);
         setLoading(false);
       } catch (err) {
@@ -66,7 +66,6 @@ const SideDashBoard = ({ userId }) => {
         </ul>
       </div>
     </div>
-
   );
 };
 

@@ -15,10 +15,10 @@ router.get('/:fileId', validateFileId, validateRequest, fileController.findFileB
 router.get('/project/:projectId', validateProjectId, validateRequest, fileController.findFilesByProjectController); //tested*
 
 //POST ROUTES 
-router.post('/:projectId', validateProjectId, validateFileBody, validateRequest, fileController.createFileController); //tested*
+router.post('/:projectId', validateProjectId, validateRequest, fileController.createFileController); //tested*
 
 //PUT ROUTES (4/4) 
-router.put('/:fileId', validateFileId, validateFileBody, validateRequest, fileController.updateFileController); //tested*
+router.put('/:fileId', validateFileId, validateRequest, fileController.updateFileController); //tested*
 router.put('/lock/:fileId', validateFileId, validateUserId, validateRequest, fileController.lockFileForEditingController);  //tested*
 router.put('/unlock/:fileId', validateFileId, validateUserId, validateRequest, fileController.unlockFileAfterEditingController);  //tested* 
 

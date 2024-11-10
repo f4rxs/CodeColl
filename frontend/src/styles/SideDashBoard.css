@@ -46,6 +46,10 @@
     outline: none;
     border-color: #007bff;
   }
+
+  .search-input::placeholder{
+    color: #f0f6fc;
+  }
   
   /* Project list styling */
   .projects-list {

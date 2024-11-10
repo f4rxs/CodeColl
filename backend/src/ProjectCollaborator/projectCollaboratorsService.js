@@ -1,8 +1,8 @@
 const Collaborator = require('./projectCollaborators');
 const User = require('../User/user');
-
+const Project = require('../Project/project');
 const projectCollaboratorsService = {
-    addCollaborator: async (projectId, userId, role ,permissions) => {
+    addCollaborator: async (projectId, userId, role, permissions) => {
         try {
             const existingCollaborator = await Collaborator.findOne({
                 where: { project_id: projectId, user_id: userId }
@@ -25,12 +25,37 @@ const projectCollaboratorsService = {
         }
     },
 
+    findProjectsOfTheUser: async (userId) => {
+        try {
+            const user = await User.findByPk(userId);
+            if (!user) {
+                throw new Error(`User with ID ${userId} is not found`);
+            }
+
+            const projects = await Collaborator.findAll({
+                where: { user_id: userId },
+                include: [
+                    {
+                        model: Project,
+                        as: 'project',
+                        attributes: ['id', 'project_name', 'description', 'owner_id'], 
+                    }
+                ]
+            });
+
+            const userProjects = projects.map(collaboration => collaboration.project);
+
+            return userProjects;
+        } catch (error) {
+            throw new Error(`Error finding projects for user ${userId}: ${error.message}`);
+        }
+    },
 
     findCollaboratorsByProject: async (projectId) => {
         try {
             const collaborators = await Collaborator.findAll({
                 where: { project_id: projectId },
-                include: ['user']  
+                include: ['user']
             });
 
             if (collaborators.length === 0) {

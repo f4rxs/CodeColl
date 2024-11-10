@@ -12,6 +12,16 @@ const projectCollaboratorsController = {
         }
     },
 
+    getUserProjectsController: async (req, res) => {
+        const { userId } = req.params;
+        try {
+            const projects = await projectCollaboratorsService.findProjectsOfTheUser(userId);
+            res.status(200).json(projects);
+        } catch (error) {
+            res.status(500).json({ message: 'Error fetching user projects', error: error.message });
+        }
+    },
+
 
     findCollaboratorsByProjectController: async (req, res) => {
         const { projectId } = req.params;

@@ -1,0 +1,40 @@
+/* src/styles/MyProjects.css */
+
+.my-projects-container {
+    padding: 20px;
+}
+
+.project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.project-card {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.project-card:hover {
+    transform: scale(1.02);
+    background-color: #e6e6e6;
+}
+
+.project-card h3 {
+    margin: 0;
+    font-size: 1.25em;
+}
+
+.project-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.updated-at {
+    font-size: 0.9em;
+    color: #888;
+}

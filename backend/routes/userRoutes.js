@@ -17,7 +17,7 @@ const validateRequest = require('../utils/validateRequest');
 router.get('/:id', authenicateToken, validateUserId, validateRequest, userController.getUserByIdController);
 router.get('/', authenicateToken, userController.findAllUsersController);
 router.get('/search/email', authenicateToken, userController.searchUserByEmailController);
-router.get('/search/username', authenicateToken, userController.searchUserByUsernameController);
+router.get('/search/:term', authenicateToken, userController.searchUserByUsernameController);
 router.get('/profile/:id', authenicateToken, validateUserId, validateRequest, userController.getUserProfileController);
 
 // PUT ROUTES

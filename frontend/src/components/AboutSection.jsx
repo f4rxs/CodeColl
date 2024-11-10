@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/AboutSection.css';
+import '../styles/AboutSection.css'
 import { Container } from "react-bootstrap"; // Import Container from Bootstrap
 
 const AboutSection = () => {

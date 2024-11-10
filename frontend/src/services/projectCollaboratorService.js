@@ -12,7 +12,7 @@ const addCollaborator = (projectId, userId, role, permissions) => {
 };
 
 const findCollaboratorsByProject = (projectId) => {
-    return httpCommon.get(`/projectCollaborators/${projectId}`, {
+    return httpCommon.get(`/project/collaborator/${projectId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -44,6 +44,15 @@ const getCollaboratorUsernames = (projectId) => {
         }
     });
 };
+const getUserProjectsController = (userId) => {
+    return httpCommon.get(`project/collaborator/user/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    });
+};
+
+
 
 // Export all functions as a service object
 const projectCollaboratorService = {
@@ -51,7 +60,9 @@ const projectCollaboratorService = {
     findCollaboratorsByProject,
     updateCollaboratorRole,
     removeCollaborator,
-    getCollaboratorUsernames
+    getCollaboratorUsernames,
+    getUserProjectsController
+    
 };
 
 export default projectCollaboratorService;
