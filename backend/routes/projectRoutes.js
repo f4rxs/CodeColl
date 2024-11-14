@@ -12,7 +12,7 @@ const {
 
 const auth = require('../middleware/auth');
 //GET ROUTES
-router.get('/:id', validateProjectId, validateRequest, projectController.findProjectByIdController); //tested*
+router.get('/:id', validateRequest, projectController.findProjectByIdController); //tested*
 router.get('/search/:term', validateSearchTerm, validateRequest, projectController.searchProjectsController);//tested*
 router.get('/user/:userId', validateUserId, validateRequest, projectController.findProjectsByUserController);  //tested*
 router.get('/overview/:id', validateProjectId, validateRequest, projectController.getProjectOverviewController); //tested*

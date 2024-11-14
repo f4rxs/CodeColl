@@ -14,9 +14,10 @@ const router = express.Router();
 //GET ROUTES 
 router.get('/:inviterId', validateUserId, validateRequest, invationController.findInvitationsByUserController); //tested*
 router.get('/invitations/pending', invationController.findAllPendingInvitationsController); //tested*
+router.get('/user/:inviteeId',invationController.findPendingInvitationForUserController);
 
 //POST ROUTES
-router.post('/', authMiddleware, validateInvitationBody, validateRequest, invationController.sendInvitationController); //tested*
+router.post('/', authMiddleware, validateRequest, invationController.sendInvitationController); //tested*
 
 //PUT ROUTES
 router.put('/:invitationId/respond', validateResponseStatus, validateRequest, invationController.respondToInvitationController); //tested*

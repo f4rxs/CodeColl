@@ -15,6 +15,7 @@ const chatsRoutes = require('../backend/routes/chatRoutes');
 const fileChangeEventRoutes = require('../backend/routes/fileChangeEventRoutes');
 const collaborationSessionRoutes = require('../backend/routes/collaborationSessionRoutes');
 const authenicationRoutes = require('../backend/routes/authenticationRoutes');
+const judge0Routes = require('../backend/routes/judge0Routes');
 
 require('./src/User/user');
 require('./src/Project/project');
@@ -47,7 +48,7 @@ app.use('/chats', chatsRoutes);
 app.use('/file/change', fileChangeEventRoutes);
 app.use('/collaboration/session', collaborationSessionRoutes);
 app.use('/auth', authenicationRoutes);
-
+app.use('/judge0',judge0Routes);
 sequelize.authenticate()
     .then(() => {
         console.log('PostgreSQL connected');

@@ -31,7 +31,10 @@ const Invitation = sequelize.define('Invitation', {
   status: {
     type: DataTypes.STRING,
     defaultValue: 'pending'
-  }
+  },
+  message:{
+    type: DataTypes.STRING,
+  },
 }, {
   timestamps: true,
   tableName: 'invitations',

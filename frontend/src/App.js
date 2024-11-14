@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, json } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import Signin from '../src/components/Signin'
 import SignUp from './components/signup';
@@ -26,6 +26,7 @@ function App() {
         <Route path="/create-project" element={<ProjectCreationPage/>}/>
         <Route path="/my-projects" element={<MyProjects/>}/>
         <Route path="/projects/:projectId" element={<ProjectPage />} /> {/* Updated path */}
+        <Route path="/collaborator/:userId/permissions" element={<ProjectPage />} /> 
       </Routes>
     </Router>
   );

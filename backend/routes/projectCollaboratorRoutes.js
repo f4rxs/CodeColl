@@ -19,6 +19,8 @@ router.post('/:projectId/:userId', validateProjectAndUserIds, validateRole, vali
 
 //PUT ROUTES  (1/1)
 router.put('/:projectId/:userId', validateProjectAndUserIds, validateRequest, projectCollaboratorsController.updateCollaboratorRoleController);  //tested
+router.put('/permissions/:projectId/:userId', projectCollaboratorsController.updateCollaboratorPermissionsController);
+
 
 //DELETE (1/1)
 router.delete('/:projectId/:userId', validateProjectAndUserIds, validateRequest, projectCollaboratorsController.removeCollaboratorController);  //tested

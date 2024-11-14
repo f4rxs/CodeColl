@@ -18,7 +18,7 @@ router.get('/project/:projectId', validateProjectId, validateRequest, fileContro
 router.post('/:projectId', validateProjectId, validateRequest, fileController.createFileController); //tested*
 
 //PUT ROUTES (4/4) 
-router.put('/:fileId', validateFileId, validateRequest, fileController.updateFileController); //tested*
+router.put('/:fileId', validateRequest, fileController.updateFileController); //tested*
 router.put('/lock/:fileId', validateFileId, validateUserId, validateRequest, fileController.lockFileForEditingController);  //tested*
 router.put('/unlock/:fileId', validateFileId, validateUserId, validateRequest, fileController.unlockFileAfterEditingController);  //tested* 
 

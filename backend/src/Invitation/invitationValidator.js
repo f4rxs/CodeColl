@@ -1,6 +1,6 @@
 const { param, body } = require('express-validator');
 
-const allowedStatuses = ['pending', 'accepted'];
+const allowedStatuses = ['pending', 'accepted','rejected'];
 
 const validateUserId = param('inviterId')
     .isInt()

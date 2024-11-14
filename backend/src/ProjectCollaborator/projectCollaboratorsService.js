@@ -1,6 +1,8 @@
 const Collaborator = require('./projectCollaborators');
 const User = require('../User/user');
 const Project = require('../Project/project');
+const { Col } = require('sequelize/lib/utils');
+const { where } = require('sequelize');
 const projectCollaboratorsService = {
     addCollaborator: async (projectId, userId, role, permissions) => {
         try {
@@ -38,7 +40,7 @@ const projectCollaboratorsService = {
                     {
                         model: Project,
                         as: 'project',
-                        attributes: ['id', 'project_name', 'description', 'owner_id'], 
+                        attributes: ['id', 'project_name', 'description', 'owner_id'],
                     }
                 ]
             });
@@ -87,6 +89,29 @@ const projectCollaboratorsService = {
         }
     },
 
+    updateCollaboratorPermissions: async (projectId, userId, permissions) => {
+        try {
+            const collaborator = await Collaborator.findOne({
+                where: {
+                    project_id: projectId,
+                    user_id: userId,
+                },
+            });
+    
+            if (!collaborator) {
+                throw new Error(`Collaborator with the user id ${userId} not found for the project ${projectId}`);
+            }
+    
+            await Collaborator.update(
+                { permissions },
+                { where: { project_id: projectId, user_id: userId } }
+            );
+    
+            return { message: "Permissions updated successfully" };
+        } catch (error) {
+            throw new Error(`Error updating permissions for user ${userId}: ${error.message}`);
+        }
+    },
 
     removeCollaborator: async (projectId, userId) => {
         try {

@@ -11,6 +11,12 @@ body {
     color: #0d1117;
 }
 
+.project-overview p {
+    color: #f0f6fc;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    
+}
+
 /* Project Page */
 .project-page {
     display: flex;

@@ -19,8 +19,10 @@ const SignIn = () => {
       const response = await authenticationService.signin({ email, password });
       localStorage.setItem('token', JSON.stringify(response.data.token));
       localStorage.setItem('loggedUser', JSON.stringify(response.data.user));
+      const token = JSON.parse(localStorage.getItem('token'));
+
       toast.success(response.data.message);
-      setTimeout(() => navigate('/home'), 1000);
+      setTimeout(() => navigate(`/home`), 1000);
     } catch (err) {
       // Retrieve the full error message sent from the backend
       const errorMessage = err.response?.data?.message || 'Failed to log in. Please check your credentials.';

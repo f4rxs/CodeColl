@@ -1,4 +1,3 @@
-// AppNavbar.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Navbar, Nav, Dropdown, Container, Form, Button } from 'react-bootstrap';
 import { FaEnvelope, FaUserCircle, FaBars, FaPlus } from 'react-icons/fa';
@@ -12,12 +11,13 @@ import '../styles/AppNavbar.css';
 
 const AppNavbar = ({ userId }) => {
     const [user, setUser] = useState(null);
-    const [notifications, setNotifications] = useState([]);
+    const [notifications, setNotifications] = useState([]);  
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState({ users: [], projects: [] });
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    const token = JSON.parse(localStorage.getItem('token'));
 
     // Navigation helpers
     const navigateToProfile = (profileUserId) => {
@@ -34,15 +34,19 @@ const AppNavbar = ({ userId }) => {
         if (userId) {
             const fetchInvitations = async () => {
                 try {
-                    const response = await invitationService.findInvitationsByUser(userId);
-                    setNotifications(response.data);
+                    const response = await invitationService.findInvitationForUser(userId);
+                    setNotifications(Array.isArray(response.data) ? response.data : []); 
+                    console.log(response.data);
+                    
                 } catch (error) {
-                    console.error('Error fetching invitations', error);
+                    console.error('Error fetching invitations:', error);
+                    setNotifications([]);
                 }
             };
             fetchInvitations();
         }
     }, [userId]);
+    
 
     const handleNotificationClick = async (notificationId, response) => {
         try {
@@ -110,7 +114,7 @@ const AppNavbar = ({ userId }) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <Navbar.Brand href="/" className="d-flex align-items-center" onClick={() => navigate('/')}>
+                <Navbar.Brand  className="d-flex align-items-center" onClick={() => navigate(`/home`)}>
                     <img src={avatar} alt="Logo" className="avatar-logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
                     <span className="dashboard-text">Dashboard</span>
                 </Navbar.Brand>
@@ -134,7 +138,7 @@ const AppNavbar = ({ userId }) => {
                         <Dropdown.Toggle variant="link" id="dropdown-custom-components" className="notification-button-btn">
                             <div className="notification-icon-wrapper">
                                 <FaEnvelope color="white" size={20} />
-                                {notifications.length > 0 && (
+                                {Array.isArray(notifications) && notifications.length > 0 && (
                                     <span className="notification-counter">
                                         {notifications.length}
                                     </span>
@@ -142,7 +146,7 @@ const AppNavbar = ({ userId }) => {
                             </div>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {notifications.length === 0 ? (
+                            {Array.isArray(notifications) && notifications.length === 0 ? (
                                 <Dropdown.ItemText>No notifications</Dropdown.ItemText>
                             ) : (
                                 notifications.map(notification => (
@@ -151,13 +155,13 @@ const AppNavbar = ({ userId }) => {
                                         <div className="d-flex justify-content-between">
                                             <button
                                                 className="btn btn-sm btn-success"
-                                                onClick={() => handleNotificationClick(notification.id, 'accept')}
+                                                onClick={() => handleNotificationClick(notification.id, 'accepted')}
                                             >
                                                 Accept
                                             </button>
                                             <button
                                                 className="btn btn-sm btn-danger"
-                                                onClick={() => handleNotificationClick(notification.id, 'reject')}
+                                                onClick={() => handleNotificationClick(notification.id, 'rejected')}
                                             >
                                                 Reject
                                             </button>

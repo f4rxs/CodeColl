@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react';
 import fileService from '../services/fileService';
 import '../styles/FileTree.css';
 
-const FileTree = ({ files: initialFiles, onSelectFile, projectId }) => {
+const FileTree = ({ files: initialFiles, onSelectFile, projectId, onDeleteFile }) => {
   const [files, setFiles] = useState(initialFiles);
-  const [cursor, setCursor] = useState(null);
   const [editingFileId, setEditingFileId] = useState(null);
   const [editingFileName, setEditingFileName] = useState('');
 
   useEffect(() => {
     setFiles(initialFiles);
   }, [initialFiles]);
-
-  const handleToggle = (node, toggled) => {
-    node.toggled = toggled;
-    setCursor(node);
-  };
 
   const handleRightClick = (e, fileId, currentName) => {
     e.preventDefault();
@@ -55,54 +49,27 @@ const FileTree = ({ files: initialFiles, onSelectFile, projectId }) => {
     let newFileName = 'New File';
     let counter = 1;
     while (files.some(f => f.filename === newFileName)) {
-      newFileName = `New File (${counter++})`;
+        newFileName = `New File (${counter++})`;
     }
-  
-    try {
-      // Create the file on the server
-      const newFile = await fileService.createFile(projectId, newFileName, '');
-      // After file is created, update state with the new file data
-      setFiles(prevFiles => [
-        ...prevFiles,
-        { id: newFile.data.id, filename: newFile.data.filename, type: 'file' },
-      ]);
-      // Set the new file for editing
-      setEditingFileName(newFile.data.filename);
-      setEditingFileId(newFile.data.id);
-    } catch (error) {
-      console.error("Error creating file:", error);
-    }
-  };
 
-  const treeData = {
-    id: 'root',
-    name: 'Files',
-    toggled: true,
-    children: files.map((file) => ({
-      id: file.id,
-      name: file.filename,
-      toggled: false,
-      render: editingFileId === file.id ? (
-        <input
-          type="text"
-          value={editingFileName}
-          onChange={handleChangeFileName}
-          onKeyDown={(e) => handleKeyPress(e, file.id)}
-          autoFocus
-          onBlur={() => setEditingFileId(null)}
-          placeholder="Enter file name"
-        />
-      ) : (
-        <span
-          onDoubleClick={(e) => handleRightClick(e, file.id, file.filename)}
-          onContextMenu={(e) => handleRightClick(e, file.id, file.filename)}
-          onClick={() => onSelectFile(file.id)}
-        >
-          {file.filename}
-        </span>
-      ),
-    })),
-  };
+    try {
+        // Create the file on the server
+        const response = await fileService.createFile(projectId, newFileName, '');
+        const newFile = response.data.file;
+
+        // Add the new file to the files state immediately
+        setFiles(prevFiles => [
+            ...prevFiles,
+            { id: newFile.id, filename: newFile.filename, type: 'file' },
+        ]);
+
+        // Set the new file for editing
+        setEditingFileId(newFile.id);
+        setEditingFileName(newFile.filename);
+    } catch (error) {
+        console.error("Error creating file:", error);
+    }
+};
 
   return (
     <div className="file-tree-container">
@@ -114,9 +81,35 @@ const FileTree = ({ files: initialFiles, onSelectFile, projectId }) => {
         </button>
       </div>
       <div className="file-tree">
-        {treeData.children.map(file => (
-          <div key={file.id}>
-            {file.render}
+        {files.map(file => (
+          <div key={file.id} className="file-item">
+            {editingFileId === file.id ? (
+              <input
+                type="text"
+                value={editingFileName}
+                onChange={handleChangeFileName}
+                onKeyDown={(e) => handleKeyPress(e, file.id)}
+                autoFocus
+                onBlur={() => setEditingFileId(null)}
+                placeholder="Enter file name"
+              />
+            ) : (
+              <span
+                onDoubleClick={(e) => handleRightClick(e, file.id, file.filename)}
+                onContextMenu={(e) => handleRightClick(e, file.id, file.filename)}
+                onClick={() => onSelectFile(file.id)}
+              >
+                {file.filename}
+              </span>
+            )}
+            {onDeleteFile && (
+              <button 
+                className="delete-file-btn"
+                onClick={() => onDeleteFile(file.id)}
+              >
+                🗑️
+              </button>
+            )}
           </div>
         ))}
       </div>

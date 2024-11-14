@@ -2,10 +2,10 @@ const projectCollaboratorsService = require("./projectCollaboratorsService");
 
 const projectCollaboratorsController = {
     addCollaboratorController: async (req, res) => {
-        const {projectId: project_id, userId: user_id} = req.params;
-        const { role , permissions} = req.body;
+        const { projectId: project_id, userId: user_id } = req.params;
+        const { role, permissions } = req.body;
         try {
-            const collaborator = await projectCollaboratorsService.addCollaborator(project_id, user_id, role,permissions);
+            const collaborator = await projectCollaboratorsService.addCollaborator(project_id, user_id, role, permissions);
             res.status(200).json({ message: 'Collaborator added successfully', collaborator });
         } catch (error) {
             res.status(500).json({ message: 'Error adding collaborator', error: error.message });
@@ -43,6 +43,20 @@ const projectCollaboratorsController = {
             res.status(500).json({ message: 'Error updating collaborator role', error: error.message });
         }
     },
+
+    updateCollaboratorPermissionsController: async (req, res) => {
+        try {
+            const { userId, projectId } = req.params;
+            const { newPermissions } = req.body;
+    
+            const result = await projectCollaboratorsService.updateCollaboratorPermissions(projectId, userId, newPermissions);
+    
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(400).json({ message: 'Error in updateCollaboratorPermissionsController', error: error.message });
+        }
+    },
+    
 
     removeCollaboratorController: async (req, res) => {
         const { projectId, userId } = req.params;

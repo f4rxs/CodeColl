@@ -53,6 +53,12 @@ const getUserProjectsController = (userId) => {
 };
 
 
+const updateCollaboratorPermissions = (userId, projectId, permissions) => {
+    return httpCommon.put(`/project/collaborator/permission/${projectId}/${userId}/permissions`, { permissions }, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+    });
+};
+
 
 // Export all functions as a service object
 const projectCollaboratorService = {
@@ -61,7 +67,8 @@ const projectCollaboratorService = {
     updateCollaboratorRole,
     removeCollaborator,
     getCollaboratorUsernames,
-    getUserProjectsController
+    getUserProjectsController,
+    updateCollaboratorPermissions
     
 };
 
