@@ -91,6 +91,16 @@ const projectCollaboratorsService = {
 
     updateCollaboratorPermissions: async (projectId, userId, permissions) => {
         try {
+            // Check if permissions is a string, and parse it to an object
+            if (typeof permissions === 'string') {
+                permissions = JSON.parse(permissions);
+            }
+    
+            // Ensure permissions is an object
+            if (typeof permissions !== 'object' || permissions === null) {
+                throw new Error("Invalid permissions data");
+            }
+    
             const collaborator = await Collaborator.findOne({
                 where: {
                     project_id: projectId,
@@ -103,7 +113,7 @@ const projectCollaboratorsService = {
             }
     
             await Collaborator.update(
-                { permissions },
+                { permissions },  
                 { where: { project_id: projectId, user_id: userId } }
             );
     
@@ -112,7 +122,8 @@ const projectCollaboratorsService = {
             throw new Error(`Error updating permissions for user ${userId}: ${error.message}`);
         }
     },
-
+    
+    
     removeCollaborator: async (projectId, userId) => {
         try {
             const collaborator = await Collaborator.findOne({

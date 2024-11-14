@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const { AsyncLocalStorage } = require('async_hooks');
+const {uploadImageToImgBB} = require('../User/imageService');
 
 const userService = {
     getUserProfile: async (userId) => {
@@ -27,11 +27,16 @@ const userService = {
             throw new Error(`no users found`);
         }
     },
-    updateUser: async (userId, updateData) => {
+    updateUser: async (userId, updateData,profilePicPath = null) => {
         try {
             const user = await User.findByPk(userId);
             if (!user) {
                 throw new Error(`User with id ${userId} is not found`);
+            }
+
+            if (profilePicPath) {
+                const profilePicUrl = await uploadImageToImgBB(profilePicPath);
+                updateData.profile_pic = profilePicUrl; 
             }
 
             await User.update(updateData, {
@@ -43,7 +48,6 @@ const userService = {
             throw new Error(`Error in updating the user with id ${userId}: ${error.message}`);
         }
     },
-// when the user updates his/her email it should send a verification
     updateUserEmail: async (userId, newEmail) => {
         try {
             const user = await User.findByPk(userId);
@@ -66,6 +70,8 @@ const userService = {
             if (!user) {
                 throw new Error(`User with ID ${userId} is not found`);
             }
+    
+            // Update profile picture URL
             return await user.update({ profile_pic: profilePicUrl });
         } catch (error) {
             throw new Error(`Failed to update the user's profile picture: ${error.message}`);

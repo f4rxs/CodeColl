@@ -99,7 +99,7 @@ const FileTree = ({ files: initialFiles, onSelectFile, projectId, onDeleteFile }
                 onContextMenu={(e) => handleRightClick(e, file.id, file.filename)}
                 onClick={() => onSelectFile(file.id)}
               >
-                {file.filename}
+                 {file.filename}
               </span>
             )}
             {onDeleteFile && (

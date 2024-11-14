@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import ProjectCreationPage from './pages/ProjectCreationPage';
 import MyProjects from './pages/MyProjectsPage';
 import ProjectPage from './pages/ProjectPage';
+import CollaboratorProfilePage from './components/ProfileCollaborator';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         <Route path="/create-project" element={<ProjectCreationPage/>}/>
         <Route path="/my-projects" element={<MyProjects/>}/>
         <Route path="/projects/:projectId" element={<ProjectPage />} /> {/* Updated path */}
-        <Route path="/collaborator/:userId/permissions" element={<ProjectPage />} /> 
+        <Route path="/collaborator/:userId/permissions/:projectId" element={<CollaboratorProfilePage />} />
       </Routes>
     </Router>
   );

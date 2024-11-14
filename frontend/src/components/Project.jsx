@@ -69,11 +69,12 @@ const Project = ({ projectId }) => {
 
     const navigateToProfile = (userId) => {
         if (userPermissions.can_manage_collaborators) {
-            navigate(`/collaborator/${userId}/permissions`, { state:  projectId  });
+            navigate(`/collaborator/${userId}/permissions/${projectId}`);
         } else {
             navigate(`/profile/${userId}`);
         }
     };
+    
 
     const handleDeleteFile = async (fileId) => {
         try {

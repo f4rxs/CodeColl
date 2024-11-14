@@ -1,12 +1,11 @@
+// CollaboratorProfilePage.js
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import projectCollaboratorService from '../services/projectCollaboratorService';
 import { Button, Form, Spinner } from 'react-bootstrap';
 
 const CollaboratorProfilePage = () => {
-    const { userId } = useParams(); 
-    const location = useLocation();
-    const projectId = location.state?.projectId; 
+    const { userId, projectId } = useParams(); 
     const [collaborator, setCollaborator] = useState(null);
     const [permissions, setPermissions] = useState({});
     const [loading, setLoading] = useState(true);
@@ -18,12 +17,11 @@ const CollaboratorProfilePage = () => {
             try {
                 setLoading(true);
                 const response = await projectCollaboratorService.findCollaboratorsByProject(projectId);
-                
-                // Find the specific collaborator by userId
-                const targetCollaborator = response.data.collaborators.find(collab => collab.user_id === parseInt(userId));
-                
-                if (!targetCollaborator) throw new Error("Collaborator not found.");
+                const targetCollaborator = response.data.collaborators.find(
+                    collab => collab.user_id === parseInt(userId)
+                );
 
+                if (!targetCollaborator) throw new Error("Collaborator not found.");
                 setCollaborator(targetCollaborator);
                 setPermissions(targetCollaborator.permissions || {});
                 setLoading(false);
@@ -43,9 +41,12 @@ const CollaboratorProfilePage = () => {
 
     const handleSavePermissions = async () => {
         try {
-            await projectCollaboratorService.updateCollaboratorPermissions(projectId, userId, permissions);
+            await projectCollaboratorService.updateCollaboratorPermissions(projectId, userId, {permissions});
+            
+            console.log(permissions);
+            
             alert("Permissions updated successfully!");
-            navigate(`/project/${projectId}`);
+            navigate(`/projects/${projectId}`);
         } catch (error) {
             console.error("Failed to update permissions:", error);
             alert("Failed to update permissions. Please try again.");

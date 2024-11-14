@@ -53,8 +53,8 @@ const getUserProjectsController = (userId) => {
 };
 
 
-const updateCollaboratorPermissions = (userId, projectId, permissions) => {
-    return httpCommon.put(`/project/collaborator/permission/${projectId}/${userId}/permissions`, { permissions }, {
+const updateCollaboratorPermissions = (projectId, userId, permissions) => {
+    return httpCommon.put(`/project/collaborator/permissions/${projectId}/${userId}`, permissions , {
         headers: { Authorization: `Bearer ${getToken()}` }
     });
 };

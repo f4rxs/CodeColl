@@ -1,5 +1,8 @@
+const fileService = require('../File/fileService');
 const userService = require('./userService');
-
+const path = require('path');
+const {uploadImageToImgBB} = require('../User/imageService');
+const fs = require('fs');
 
 const userController = {
     getUserProfileController: async (req, res) => {
@@ -93,12 +96,13 @@ const userController = {
         }
     },
 
-    // Update User
     updateUserController: async (req, res) => {
         const userId = req.params.id;
         const updatedData = req.body;
+
+        const profilePicPath = req.file ? req.file.path : null;
         try {
-            const user = await userService.updateUser(userId, updatedData);
+            const user = await userService.updateUser(userId, updatedData,profilePicPath);
             if (user) {
                 res.status(200).json({ message: 'User updated successfully', user });
             } else {
@@ -106,6 +110,10 @@ const userController = {
             }
         } catch (error) {
             res.status(500).json({ message: 'Error updating user', error: error.message });
+        } finally {
+            if(profilePicPath && fs.existsSync(profilePicPath)){
+                fs.unlinkSync(profilePicPath);
+            }
         }
     },
 
@@ -169,9 +177,19 @@ const userController = {
     
     updateUserProfilePicController: async (req, res) => {
         const userId = req.params.id;
-        const { profile_pic } = req.body;
+        console.log('Uploaded file:', req.file);
+        const profilePicPath = req.file ? req.file.path : null; // multer stores the file path here
+        if (!profilePicPath) {
+            return res.status(400).json({ message: 'No profile picture file provided' });
+        }
+    
         try {
-            const result = await userService.updateUserProfilePic(userId, profile_pic);
+            // Assuming uploadImageToImgBB is a function to upload the file to an external service
+            const profilePicUrl = await uploadImageToImgBB(profilePicPath);
+            
+            // Update user profile picture in the database
+            const result = await userService.updateUserProfilePic(userId, profilePicUrl);
+    
             if (result) {
                 res.status(200).json({ message: `Profile picture updated successfully for user with ID ${userId}` });
             } else {
@@ -179,8 +197,14 @@ const userController = {
             }
         } catch (error) {
             res.status(500).json({ message: `Error updating profile picture for user with ID ${userId}`, error: error.message });
+        } finally {
+            // Clean up the uploaded file after processing
+            if (profilePicPath && fs.existsSync(profilePicPath)) {
+                fs.unlinkSync(profilePicPath);
+            }
         }
-    }
+    },
+    
 
 }
 

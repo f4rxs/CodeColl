@@ -59,12 +59,26 @@ const updateUserEmail = (userId, newEmail) => {
 };
 
 // Update user profile picture
-const updateUserProfilePic = (userId, profilePic) => {
-    return httpCommon.put(`/users/profile-pic/${userId}`, { profile_pic: profilePic }, {
+const updateUserProfilePic = async (userId, profilePicFile) => {
+    const formData = new FormData();
+    formData.append('profile_pic', profilePicFile);  
+    try {
+        const response = await httpCommon.put(`/users/profile-pic/${userId}`, formData, {
+            headers: {
+                'Authorization': getTokenBearer(),
+                'Content-Type': 'multipart/form-data', 
+            },
+        });
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error uploading profile picture:', error);
+    }
+};
+const updateUser = (userId, updatedData) => {
+    return httpCommon.put(`/users/${userId}`, updatedData, {
         headers: { Authorization: getTokenBearer() }
     });
-};
-
+}
 
 // Delete user
 const deleteUser = (userId) => {
@@ -83,7 +97,8 @@ const userService = {
     changeUserPassword,
     updateUserEmail,
     updateUserProfilePic,
-    deleteUser
+    deleteUser,
+    updateUser
 };
 
 export default userService;

@@ -47,15 +47,20 @@ const projectCollaboratorsController = {
     updateCollaboratorPermissionsController: async (req, res) => {
         try {
             const { userId, projectId } = req.params;
-            const { newPermissions } = req.body;
+            const { permissions } = req.body;
     
-            const result = await projectCollaboratorsService.updateCollaboratorPermissions(projectId, userId, newPermissions);
+            if (!permissions) {
+                return res.status(400).json({ message: "Permissions data is required" });
+            }
+    
+            const result = await projectCollaboratorsService.updateCollaboratorPermissions(projectId, userId, permissions);
     
             res.status(200).json(result);
         } catch (error) {
             res.status(400).json({ message: 'Error in updateCollaboratorPermissionsController', error: error.message });
         }
     },
+    
     
 
     removeCollaboratorController: async (req, res) => {

@@ -13,23 +13,19 @@ const ProfilePage = ({ showEditButton, userId }) => {
   const [newBio, setNewBio] = useState('');
   const [newSkills, setNewSkills] = useState([]);
   const [newProfilePic, setNewProfilePic] = useState('');
-      
+  const [profilePicFile, setProfilePicFile] = useState(null);
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         if(userId){
-            
           const profile = await userService.getUserById(userId);
           setUser(profile.data);
           setNewBio(profile.data.bio || '');
           setNewSkills(profile.data.skills || []);
           setNewProfilePic(profile.data.profile_pic || defaultPfp);
-          
         } else {
-          // Load current logged-in user from local storage if no specific ID is provided
           const storedUser = JSON.parse(localStorage.getItem('loggedUser'));
-          console.log(storedUser);
-          
           if (storedUser) {
             setUser(storedUser);
             setNewBio(storedUser.bio || '');
@@ -37,8 +33,7 @@ const ProfilePage = ({ showEditButton, userId }) => {
             setNewProfilePic(storedUser.profile_pic || defaultPfp);
           }
         }
-        
-        } catch (error) {
+      } catch (error) {
         console.error("Failed to load user profile:", error);
       }
     };
@@ -49,12 +44,23 @@ const ProfilePage = ({ showEditButton, userId }) => {
   const handleEditProfileClick = () => setEditMode(!editMode);
   const handleBioChange = (e) => setNewBio(e.target.value);
 
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfilePicFile(file);
+      setNewProfilePic(URL.createObjectURL(file)); 
+    }
+  };
+
   const handleSaveChanges = async () => {
     try {
       const currentUserId = user.id;
       await userService.updateUserBio(currentUserId, newBio);
       await userService.updateUserSkills(currentUserId, newSkills);
-      await userService.updateUserProfilePic(currentUserId, newProfilePic);
+
+      if (profilePicFile) {
+        await userService.updateUserProfilePic(currentUserId, profilePicFile);
+    }
 
       const updatedUser = {
         ...user,
@@ -90,7 +96,15 @@ const ProfilePage = ({ showEditButton, userId }) => {
         <Col md={6} className="text-center">
           <div className="profile-pic-container">
             <Image src={newProfilePic} roundedCircle alt="Profile Picture" className="profile-pic-prof" />
-            {editMode && <PencilSquare className="edit-icon" />}
+            {editMode && (
+              <>
+                <PencilSquare className="edit-icon" />
+                <Form.Group>
+                  <Form.Label>Change Profile Picture</Form.Label>
+                  <Form.Control type="file" accept="image/*" onChange={handleProfilePicChange} />
+                </Form.Group>
+              </>
+            )}
           </div>
           <h2 className="profile-name">{user.username || "Username"}</h2>
           <div className="bio-container">

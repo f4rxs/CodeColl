@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../src/User/userController');
+const upload = require('../middleware/multer');
 const authenicateToken = require('../middleware/auth');
 const {
     validateUserId,
@@ -21,12 +22,12 @@ router.get('/search/:term', authenicateToken, userController.searchUserByUsernam
 router.get('/profile/:id', authenicateToken, validateUserId, validateRequest, userController.getUserProfileController);
 
 // PUT ROUTES
-router.put('/:id', authenicateToken, validateUserId, validateUpdateUser, validateRequest, userController.updateUserController);
+router.put('/:id', authenicateToken,upload.single(`profile_pic`) ,validateUserId, validateUpdateUser, validateRequest, userController.updateUserController);
 router.put('/changeEmail/:id', authenicateToken, validateUserId, validateEmailChange, validateRequest, userController.updateUserEmailController);
 router.put('/bio/:id', authenicateToken, validateUserId, validateBio, validateRequest, userController.updateUserBioController);
 router.put('/skills/:id', authenicateToken, validateUserId, validateSkills, validateRequest, userController.updateUSerSkillsController);
 router.put('/change-password/:id', authenicateToken, validateUserId, validatePasswordChange, validateRequest, userController.changeUserPasswordController);
-router.put('/profile-pic/:id', authenicateToken, validateUserId, validateProfilePic, validateRequest, userController.updateUserProfilePicController);
+router.put('/profile-pic/:id', authenicateToken,upload.single('profile_pic'), validateUserId, validateProfilePic, validateRequest, userController.updateUserProfilePicController);
 
 // DELETE ROUTE
 router.delete('/:id', authenicateToken, validateUserId, validateRequest, userController.deleteUserController);
