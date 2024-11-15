@@ -4,63 +4,68 @@
     padding: 0;
     box-sizing: border-box;
 }
- 
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #0d1117;
-    color: #0d1117;
-}
-
-.project-overview p {
     color: #f0f6fc;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    
+    line-height: 1.6; /* Improve readability */
 }
 
 /* Project Page */
 .project-page {
     display: flex;
-    background-color: #0d1117;
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
     padding: 20px;
+    gap: 20px;
+    min-height: 100vh;
+    background-color: #0d1117;
     overflow: hidden; /* Prevent scrolling on the page */
 }
 
 /* Title Styles */
 .project-title {
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #f0f6fc;
     text-align: center;
-    margin-bottom: 1px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
 /* Project Container Layout */
 .project-container {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 20px;
-    overflow: hidden; /* Prevent scrolling */
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px; /* Limit the max width */
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* Sidebar (File Tree and Collaborators) */
-.sidebar {
-    width: 250px;
+.sidebar,
+.collaborators-sidebar {
     background-color: #1e262d;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 250px;
+    max-height: 600px; /* Limit height of sidebar */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
 }
 
+/* Collaborators Sidebar */
 .collaborators-sidebar {
-    width: 250px;
-    margin-bottom: 312px;
-    background-color: #1e262d;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
 }
 
 .collaborators-sidebar h3 {
@@ -71,101 +76,131 @@ body {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 1px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #4CAF50;
 }
 
 /* Collaborators List */
+.collaborators-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .collaborators-sidebar ul li {
     font-size: 1.1rem;
     color: #ccc;
-    margin-bottom: 12px;
-    padding: 5px 0;
-    transition: transform 0.3s ease, color 0.3s ease;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    background-color: #2a353b;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+/* Hover Effect for Collaborator Item */
 .collaborators-sidebar ul li:hover {
     color: #4CAF50;
-    transform: translateX(5px);
+    transform: translateX(10px);
+    background-color: #1f292f;
+    cursor: pointer;
 }
 
-.collaborator-btn{
-    background-color: transparent;
-    border: transparent;
-    color: #f0f6fc;
+/* Collaborator Avatar */
+.collaborator-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+    border: 2px solid #4CAF50;
 }
 
-/* Main Content (IDE) */
-.main-content {
+/* Collaborator Details */
+.collaborator-details {
     flex: 1;
-    background-color: #151b23;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    color: #f5f5f5;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
-.main-content h3 {
-    font-size: 1.5rem;
+/* Role Styling */
+.collaborator-role {
+    font-size: 0.9rem;
+    color: #8a8a8a;
+    margin-top: 5px;
+}
+
+/* Permissions List */
+.permissions {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.permissions li {
+    margin-bottom: 5px;
+}
+
+.permissions li span {
     font-weight: bold;
-    color: #45a049;
+    color: #4CAF50;
+}
+
+/* Collaborators Sidebar Header */
+.collaborators-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
 }
 
-/* File Editor Area */
-.file-editor-container {
-    background-color: #1e262d;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    max-height: 500px; /* Limit the height of the editor */
-    overflow-y: auto;  /* Allow scrolling within the editor */
-}
-
-.file-editor-container button {
-    margin-top: 15px;
-    padding: 12px 20px;
+.invite-button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 10px;  
+    border-radius: 50%; 
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px; 
+    width: 30px;  
+    height: 30px;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.file-editor-container button:hover {
-    background-color: #45a049;
+.invite-button:hover {
+    background-color: #9aa89b;
     transform: scale(1.05);
 }
 
-.file-editor-container button:active {
+.invite-button:active {
     transform: scale(1);
 }
 
-/* File Tree */
-.file-tree-container {
-    height: 100%;
-    overflow-y: auto;
-}
-
-.create-project-btn {
-    background: #007bff;
+/* Collaborator Item Button */
+.collaborator-btn {
+    background: none;
     border: none;
-    padding: 10px;
-    border-radius: 50%;
+    color: inherit;
+    font-size: inherit;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 5px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.create-project-btn:hover {
-    background: #0056b3;
+.collaborator-btn:hover {
+    color: #4CAF50;
+    transform: scale(1.05);
 }
 
+/* Modal for Invite */
 .modal {
     position: fixed;
     top: 0;
@@ -199,6 +234,108 @@ body {
     background: #0056b3;
 }
 
+/* Main Content (IDE) */
+.main-content {
+    flex: 1;
+    background-color: #151b23;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    color: #f5f5f5;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: calc(100% - 300px); /* Adjust to fit alongside the sidebar */
+}
+
+/* File Editor Area */
+.file-editor-container {
+    background-color: #1e262d;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.file-editor-container button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.file-editor-container button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.file-editor-container button:active {
+    transform: scale(1);
+}
+
+/* File Tree */
+.file-tree-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+}
+
+.modal-content button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.modal-content button:hover {
+    background: #0056b3;
+}
+
+/* Create Project Button */
+.create-project-btn {
+    background: #007bff;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.create-project-btn:hover {
+    background: #0056b3;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .project-container {
@@ -217,6 +354,6 @@ body {
     }
 
     .file-editor-container {
-        max-height: none; /* Remove height limit on smaller screens */
+        max-height: none;
     }
 }

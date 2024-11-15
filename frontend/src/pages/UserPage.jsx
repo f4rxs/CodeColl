@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppNavbar from "../components/NavBar";
 import SideDashBoard from "../components/SideDashboard";
 const UserPage = () => {
@@ -8,6 +8,7 @@ const UserPage = () => {
   console.log(userId);
   
   
+
     return (
       <div>
         <AppNavbar userId={userId} /> {/* Render the Navbar */}

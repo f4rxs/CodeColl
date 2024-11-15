@@ -1,0 +1,69 @@
+.activity-log-dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.activity-log-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.activity-log-nav select {
+    padding: 5px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+}
+
+.activity-log-nav .navigate-btn {
+    padding: 5px 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.activity-log-nav .navigate-btn:hover {
+    background-color: #004494;
+}
+
+.activity-log-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.activity-message {
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.activity-message strong {
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
+
+.activity-message small {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}

@@ -26,7 +26,7 @@ const Project = ({ projectId }) => {
     const fetchFiles = async () => {
         try {
             const response = await fileService.getFilesByProjectId(projectId);
-            setFiles(response.data.files); 
+            setFiles(response.data.files);
         } catch (error) {
             console.error("Error fetching files:", error);
             setFiles([]);
@@ -38,6 +38,7 @@ const Project = ({ projectId }) => {
             try {
                 const response = await projectCollaboratorService.findCollaboratorsByProject(projectId);
                 setCollaborators(response.data.collaborators || []);
+                console.log(response);
 
                 // Check if logged user is a collaborator
                 const userCollaborator = response.data.collaborators.find(
@@ -74,7 +75,7 @@ const Project = ({ projectId }) => {
             navigate(`/profile/${userId}`);
         }
     };
-    
+
 
     const handleDeleteFile = async (fileId) => {
         try {
@@ -101,7 +102,7 @@ const Project = ({ projectId }) => {
 
     return (
         <div className="project-page">
-            <h2 
+            <h2
                 className="project-title"
                 onDoubleClick={() => isOwner && setIsEditingProjectName(true)}
             >
@@ -128,13 +129,14 @@ const Project = ({ projectId }) => {
             ) : (
                 <div className="project-container">
                     <div className="file-sidebar">
-                        <FileTree 
-                            files={files} 
-                            onSelectFile={setSelectedFileId} 
-                            projectId={projectId} 
+                        <FileTree
+                            files={files}
+                            onSelectFile={setSelectedFileId}
+                            projectId={projectId}
                             onDeleteFile={isOwner ? handleDeleteFile : null}
                         />
                     </div>
+
 
                     <div className="main-content">
                         {selectedFileId ? (
@@ -145,45 +147,45 @@ const Project = ({ projectId }) => {
                     </div>
 
                     <div className="collaborators-sidebar">
-                        <div className="collaborators-header">
-                            <h3>Collaborators</h3>
-                            {isOwner && (
-                                <button 
-                                    className="invite-button" 
-                                    onClick={() => setIsInviteModalOpen(true)}
-                                >
-                                    + Invite
-                                </button>
-                            )}
-                        </div>
-                        <ul>
-                            {collaborators.map(collaborator => (
-                                <li key={collaborator.id} className="collaborator-item">
-                                    <button 
-                                        className="collaborator-btn"
-                                        onClick={() => navigateToProfile(collaborator.user_id)}
-                                    >
-                                        {collaborator.user.username} - {collaborator.role}
-                                    </button>
-                                    <div className="permissions">
-                                        <ul>
-                                            <li>Edit: {collaborator.permissions.can_edit ? 'Yes' : 'No'}</li>
-                                            <li>Lock Files: {collaborator.permissions.can_lock_files ? 'Yes' : 'No'}</li>
-                                            <li>Manage Collaborators: {collaborator.permissions.can_manage_collaborators ? 'Yes' : 'No'}</li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+    <div className="collaborators-header">
+        <h3>Collaborators</h3>
+        {isOwner && (
+            <button
+                className="invite-button"
+                onClick={() => setIsInviteModalOpen(true)}
+            >
+            +
+            </button>
+        )}
+    </div>
+    <ul>
+        {collaborators.map(collaborator => (
+            <li key={collaborator.user_id} className="collaborator-item">
+                <button
+                    className="collaborator-btn"
+                    onClick={() => navigateToProfile(collaborator.user_id)}
+                >
+                    <img
+                        src={collaborator.user.profile_pic || '/default-avatar.jpg'}
+                        alt={collaborator.name}
+                        className="collaborator-avatar"
+                    />
+                    <div className="collaborator-details">
+                        <strong>{collaborator.user.username}</strong>
+                        <span className="collaborator-role">{collaborator.role}</span>
                     </div>
+                </button>
+            </li>
+        ))}
+    </ul>
+</div>
                 </div>
             )}
 
-            <InviteModal 
+            <InviteModal
                 show={isInviteModalOpen}
                 onClose={() => setIsInviteModalOpen(false)}
                 projectId={projectId}
-                ownerName={project.owner_name}  
                 projectTitle={project.project_name}
             />
         </div>

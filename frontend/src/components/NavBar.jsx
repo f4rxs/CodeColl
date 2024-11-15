@@ -20,10 +20,10 @@ const AppNavbar = ({ userId }) => {
     const token = JSON.parse(localStorage.getItem('token'));
 
     useEffect(() => {
-        if (loggedUser && loggedUser.id) {
+        if (loggedUser && loggedUser.id && !user) { 
             const fetchUserData = async () => {
                 try {
-                    const response = await userService.getUserById(loggedUser.id); // assuming you have a getUserById function
+                    const response = await userService.getUserById(loggedUser.id); 
                     setUser(response.data);
                 } catch (error) {
                     console.error('Error fetching user data:', error);
@@ -31,7 +31,8 @@ const AppNavbar = ({ userId }) => {
             };
             fetchUserData();
         }
-    }, [loggedUser]);
+    }, [loggedUser, user]);
+    
 
     // Navigation helpers
     const navigateToProfile = (profileUserId) => {
