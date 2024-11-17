@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import authenticationService from '../services/authenticationService';
 
 const EmailVerification = () => {
-    const { id, token } = useParams(); // Extract ID and token from the URL
+    const { id, token } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,10 +13,10 @@ const EmailVerification = () => {
             try {
                 const response = await authenticationService.emailVerification(id, token);
                 toast.success(response.message, { autoClose: 3000 });
-                navigate('/login'); // Navigate to login page after verification
+                navigate('/login'); 
             } catch (error) {
                 toast.error(error.response?.data?.message || 'Email verification failed', { autoClose: 3000 });
-                navigate('/signup'); // Redirect back to signup on failure
+                navigate('/signup'); 
             }
         };
 

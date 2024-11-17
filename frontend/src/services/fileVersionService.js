@@ -3,7 +3,7 @@ import { getToken } from '../utils/utils';
 
 // Create a new file version
 const createFileVersion = (fileId, versionData) => {
-    return httpCommon.post(`/file-versions/${fileId}`, versionData, {
+    return httpCommon.post(`/file/version/${fileId}`, versionData, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -12,7 +12,7 @@ const createFileVersion = (fileId, versionData) => {
 
 // Find all versions for a specific file
 const findFileVersions = (fileId) => {
-    return httpCommon.get(`/file-versions/${fileId}`, {
+    return httpCommon.get(`/file/version/${fileId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -21,7 +21,7 @@ const findFileVersions = (fileId) => {
 
 // Find the latest version for a specific file
 const findLatestFileVersion = (fileId) => {
-    return httpCommon.get(`/file-versions/latest/${fileId}`, {
+    return httpCommon.get(`/file/version/latest/${fileId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -30,7 +30,7 @@ const findLatestFileVersion = (fileId) => {
 
 // Restore a specific file version
 const restoreFileVersion = (fileId, versionId) => {
-    return httpCommon.put(`/file-versions/restore/${fileId}/${versionId}`, {}, {
+    return httpCommon.put(`/file/version/restore/${fileId}/${versionId}`, {}, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }

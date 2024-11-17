@@ -5,7 +5,6 @@ const {
     validateSignIn,
     validateSignUp
 } = require('../src/authentication/authenticationValidator');
-
 const validateRequest = require('../utils/validateRequest');
 
 //POST ROUTES

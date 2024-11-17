@@ -1,21 +1,32 @@
 import React from "react";
 import '../styles/HeroSection.css';
 import { Button } from "react-bootstrap";
-import ideImage from '../assests/ideDarkImage.png'; // Ensure this path is correct
+import ideImage from '../assests/ideDarkImage.png'; 
 import jsImage from '../assests/langauges/js.png';
-// import tsImage from '../../src/assests/langauges/ts.png';
 import javaImage from '../assests/langauges/java.png'
 import pythonImage from '../assests/langauges/python.png';
-
-// Import all other language images similarly...
+import cImage from '../assests/langauges/C.png';
+import cPlusImage from '../assests/langauges/C++.png'
+import rubyImage  from '../assests/langauges/Ruby.png'
+import goImage from '../assests/langauges/Go.png';
+import phpImage from '../assests/langauges/php.png';
+import htmlImage from '../assests/langauges/html.png';
+import cssImage from '../assests/langauges/css.png';
+import tsImage from '../assests/langauges/TS.png';
 
 
 const languages = [
     { name: "JavaScript", icon: jsImage },
-    // { name: "TypeScript", icon: tsImage },
     { name: "Python", icon: pythonImage },
-    {name:"Java",icon:javaImage}
-    // Continue adding other languages here...
+    {name:"Java",icon:javaImage},
+    {name:"C",icon:cImage},
+    {name:"C++",icon:cPlusImage},
+    {name:"Ruby",icon:rubyImage},
+    {name:"Go",icon:goImage},
+    {name:"php",icon:phpImage},
+    {name:"html",icon:htmlImage},
+    {name:"css",icon:cssImage},
+    {name:"type script",icon:tsImage}
 ];
 
 const HeroSection = () => {
@@ -42,10 +53,10 @@ const HeroSection = () => {
             {/* Supported Languages Section */}
             <div className="swimlane row languages-section">
                 <div className="col-sm-6 col-lg-4">
-                    <h2>Code in any language</h2>
+                    <h2>Code in many languages</h2>
                     <p>
-                        VS Code supports almost every major programming language. Several ship in the box, like JavaScript,
-                        TypeScript, CSS, and HTML, but extensions for others can be found in the VS Code Marketplace.
+                        CodeColl supports many programming languages. Several ship in the box, like JavaScript,
+                        TypeScript, html...
                     </p>
                 </div>
                 <div className="languages col-sm-6 col-lg-8">

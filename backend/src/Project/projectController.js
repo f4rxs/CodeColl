@@ -11,7 +11,6 @@ const projectController = {
         }
     },
 
-    // Find project by ID
     findProjectByIdController: async (req, res) => {
         const { id: projectId } = req.params;
         try {
@@ -22,7 +21,6 @@ const projectController = {
         }
     },
 
-    // Find projects owned by user
     findProjectsByUserController: async (req, res) => {
         const { userId } = req.params;
         try {
@@ -33,7 +31,6 @@ const projectController = {
         }
     },
 
-    // Update a project
     updateProjectController: async (req, res) => {
         const { id: projectId } = req.params;
         const updateData = req.body;
@@ -45,7 +42,6 @@ const projectController = {
         }
     },
 
-    // Delete a project
     deleteProjectController: async (req, res) => {
         const { id: projectId } = req.params;
         try {
@@ -55,7 +51,6 @@ const projectController = {
             res.status(500).json({ message: 'Error deleting project', error: error.message });
         }
     },
-    // Search projects by term
     searchProjectsController: async (req, res) => {
         const { term } = req.params;
         try {
@@ -66,7 +61,6 @@ const projectController = {
         }
     },
 
-    // Get project overview
     getProjectOverviewController: async (req, res) => {
         const { id: projectId } = req.params;
         try {
@@ -77,7 +71,6 @@ const projectController = {
         }
     },
 
-    // Archive a project
     archiveProjectController: async (req, res) => {
         const { id: projectId } = req.params;
         try {
@@ -88,7 +81,6 @@ const projectController = {
         }
     },
 
-    // Restore an archived project
     restoreArchivedProjectController: async (req, res) => {
         const { id: projectId } = req.params;
         try {
@@ -99,7 +91,6 @@ const projectController = {
         }
     },
 
-    // Duplicate a project
     duplicateProjectController: async (req, res) => {
         const { id: projectId } = req.params;
         try {
@@ -110,7 +101,6 @@ const projectController = {
         }
     },
 
-    // Get archived projects
     getArchivedProjectsController: async (req, res) => {
         try {
             const archivedProjects = await projectService.getArchivedProjects();

@@ -1,5 +1,5 @@
 // import axios from 'axios';
-
+//this feature gonna be set for the final
 // const OPENAI_API_KEY = "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";
 // const OPENAI_API_URL = "https://api.openai.com/v1/completions";
 
@@ -33,7 +33,7 @@
 
 import OpenAI from "openai";
 
-const openai = new OpenAI({apiKey: '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', dangerouslyAllowBrowser: true});
+const openai = new OpenAI({apiKey: '', dangerouslyAllowBrowser: true});
 
 
 export const getCodeSuggestion = async (inputText, language) => {

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import fileService from '../services/fileService';
+import fileVersionService from '../services/fileVersionService';
 import { getCodeSuggestion } from '../services/aiService';
-import { runCode } from '../services/judge0Service'; 
+import { runCode } from '../services/judge0Service';
+import { toast, ToastContainer } from 'react-toastify';
 
-
+// Map for language names to Judge0's language IDs
 const languageMap = {
     javascript: '63',
     python: '71',
@@ -13,8 +15,13 @@ const languageMap = {
     java: '62',
     ruby: '72',
     go: '60',
+    php: '72',
+    html: '77',
+    css: '78',
+    typescript: '69',
 };
-const FileEditor = ({ fileId }) => {
+
+const FileEditor = ({ fileId, canEdit }) => {
     const [suggestion, setSuggestion] = useState('');
     const [content, setContent] = useState('');
     const [language, setLanguage] = useState('javascript');
@@ -25,7 +32,6 @@ const FileEditor = ({ fileId }) => {
             try {
                 const response = await fileService.getFileById(fileId);
                 setContent(response.data.file.content || '');
-                setLanguage(response.data.language || 'javascript');
             } catch (error) {
                 console.error("Error loading file content:", error);
             }
@@ -35,11 +41,25 @@ const FileEditor = ({ fileId }) => {
     }, [fileId]);
 
     const handleEditorChange = (newContent) => {
-        setContent(newContent);
+        if (canEdit) {
+            setContent(newContent);
+        } 
     };
 
     const handleSave = async () => {
+        if (!canEdit) {
+            alert("You don't have permission to save this file.");
+            
+            return;
+        }
+
         try {
+            const versionData = {
+                timestamp: new Date().toISOString(),
+                context: content,
+            };
+
+            await fileVersionService.createFileVersion(fileId, versionData);
             await fileService.updateFile(fileId, { content });
             alert('File saved successfully!');
         } catch (error) {
@@ -64,9 +84,8 @@ const FileEditor = ({ fileId }) => {
                 alert('Language not supported for execution.');
                 return;
             }
-    
-            // Convert languageId to an integer to avoid type issues
-            const result = await runCode(content, parseInt(languageId, 10));
+
+            const result = await runCode(content, languageId);
             setExecutionResult(result.stdout || result.stderr || 'No output');
         } catch (error) {
             alert('Failed to execute code.');
@@ -106,28 +125,53 @@ const FileEditor = ({ fileId }) => {
     return (
         <div className="file-editor-container">
             <div className="editor-wrapper">
+                <div className="language-selector">
+                    <label htmlFor="language-select">Select Language: </label>
+                    <select
+                        id="language-select"
+                        value={language}
+                        onChange={(e) => setLanguage(e.target.value)}
+                        style={{ width: '200px', overflowY: 'auto', maxHeight: '150px' }}
+                        disabled={!canEdit} // Disabling language selection if the user can't edit
+                    >
+                        {Object.keys(languageMap).map((langKey) => (
+                            <option key={langKey} value={langKey}>
+                                {langKey.charAt(0).toUpperCase() + langKey.slice(1)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <MonacoEditor
                     height="500px"
                     language={language}
                     value={content}
                     onChange={handleEditorChange}
                     theme="custom-dark"
+                    options={{
+                        readOnly: !canEdit, 
+                    }}
                 />
-                <button className="save-button" onClick={handleSave}>
-                    Save
-                </button>
-                <button className="suggestion-button" onClick={handleSuggestion}>
-                    Get AI Suggestion
-                </button>
-                <button className="execute-button" onClick={handleExecuteCode}>
-                    Execute Code
-                </button>
+                <div className="editor-buttons">
+                    <button className="save-button" onClick={handleSave} disabled={!canEdit}>
+                        Save
+                    </button>
+                    <button className="suggestion-button" onClick={handleSuggestion}>
+                        Get AI Suggestion
+                    </button>
+                    <button className="execute-button" onClick={handleExecuteCode}>
+                        Execute Code
+                    </button>
+                </div>
             </div>
+
+
+            {/* this feature is not set  */}
             {suggestion && (
                 <div className="suggestion-box">
                     <h4>AI Suggestion:</h4>
                     <pre>{suggestion}</pre>
-                    <button onClick={() => setContent(content + suggestion)}>
+                    <button onClick={() => setContent(content + suggestion)} disabled={!canEdit}>
                         Apply Suggestion
                     </button>
                     <button onClick={() => setSuggestion('')}>

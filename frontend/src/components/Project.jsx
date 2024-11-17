@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fileService from '../services/fileService';
 import projectCollaboratorService from '../services/projectCollaboratorService';
@@ -6,6 +6,8 @@ import projectService from '../services/projectService';
 import FileEditor from '../components/FIleEditor';
 import FileTree from '../components/FIleTree';
 import InviteModal from '../components/InviteModal';
+import activityService from '../services/activitylogService';
+import defaultPfp from '../assests/defaultpfp.png'
 import '../styles/Project.css';
 
 const Project = ({ projectId }) => {
@@ -13,34 +15,38 @@ const Project = ({ projectId }) => {
     const [collaborators, setCollaborators] = useState([]);
     const [project, setProject] = useState(null);
     const [selectedFileId, setSelectedFileId] = useState(null);
+    const [lockedFiles, setLockedFiles] = useState({});
     const [isEditingProjectName, setIsEditingProjectName] = useState(false);
     const [newProjectName, setNewProjectName] = useState('');
     const [isCollaborator, setIsCollaborator] = useState(false);
     const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
     const [userPermissions, setUserPermissions] = useState({});
+    const [activityDescription, setActivityDescription] = useState('');
 
     const navigate = useNavigate();
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     const isOwner = loggedUser && project && loggedUser.id === project.owner_id;
 
-    const fetchFiles = async () => {
-        try {
-            const response = await fileService.getFilesByProjectId(projectId);
-            setFiles(response.data.files);
-        } catch (error) {
-            console.error("Error fetching files:", error);
-            setFiles([]);
-        }
-    };
-
     useEffect(() => {
+        const fetchFiles = async () => {
+            try {
+                const response = await fileService.getFilesByProjectId(projectId);
+                const filesWithLockState = response.data.files.map(file => ({
+                    ...file,
+                    locked_by: file.locked_by || null,
+                }));
+                setFiles(filesWithLockState);
+            } catch (error) {
+                console.error("Error fetching files:", error);
+                setFiles([]);
+            }
+        };
+
         const fetchCollaborators = async () => {
             try {
                 const response = await projectCollaboratorService.findCollaboratorsByProject(projectId);
                 setCollaborators(response.data.collaborators || []);
-                console.log(response);
 
-                // Check if logged user is a collaborator
                 const userCollaborator = response.data.collaborators.find(
                     collaborator => collaborator.user_id === loggedUser.id
                 );
@@ -76,6 +82,44 @@ const Project = ({ projectId }) => {
         }
     };
 
+    const handleLockFile = async (fileId) => {
+        try {
+            const file = files.find(f => f.id === fileId);
+            const isLocked = !!file.locked_by;
+
+            if (isLocked) {
+                await fileService.unlockFile(fileId);
+            } else {
+                await fileService.lockFile(fileId, loggedUser.id);
+            }
+
+            setFiles(files.map(f =>
+                f.id === fileId
+                    ? { ...f, locked_by: isLocked ? null : loggedUser.id }
+                    : f
+            ));
+        } catch (error) {
+            console.error("Error locking/unlocking file:", error);
+            alert("Failed to lock/unlock file.");
+        }
+    };
+
+    const handlePostActivity = async () => {
+        try {
+            if (activityDescription.trim()) {
+                await activityService.logActivity(
+                    loggedUser.id, projectId, activityDescription
+                );
+                alert("Activity has been posted");
+                setActivityDescription(""); 
+            } else {
+                alert("Activity description cannot be empty!");
+            }
+        } catch (error) {
+            console.error("Error posting activity:", error);
+            alert("Failed to post activity.");
+        }
+    };
 
     const handleDeleteFile = async (fileId) => {
         try {
@@ -94,7 +138,7 @@ const Project = ({ projectId }) => {
             setIsEditingProjectName(false);
         } catch (error) {
             console.error("Error renaming project:", error);
-            alert('Failed to rename project.');
+            alert("Failed to rename project.");
         }
     };
 
@@ -112,7 +156,7 @@ const Project = ({ projectId }) => {
                         value={newProjectName}
                         onChange={(e) => setNewProjectName(e.target.value)}
                         onBlur={handleRenameProject}
-                        onKeyDown={(e) => e.key === 'Enter' && handleRenameProject()}
+                        onKeyDown={(e) => e.key === "Enter" && handleRenameProject()}
                         autoFocus
                     />
                 ) : (
@@ -134,51 +178,74 @@ const Project = ({ projectId }) => {
                             onSelectFile={setSelectedFileId}
                             projectId={projectId}
                             onDeleteFile={isOwner ? handleDeleteFile : null}
+                            onLockFile={handleLockFile}
+                            showLockOption={isOwner || userPermissions.can_lock_files}
+                            userId={loggedUser.id}
+                            collaborators={collaborators}
+                            canEdit={userPermissions.can_edit}
                         />
                     </div>
 
-
                     <div className="main-content">
                         {selectedFileId ? (
-                            <FileEditor fileId={selectedFileId} />
+                            <div>
+                                <FileEditor
+                                    fileId={selectedFileId}
+                                    canEdit={isOwner || userPermissions.can_edit}
+                                />
+                                <div className="activity-input">
+                                    <input
+                                        type="text"
+                                        value={activityDescription}
+                                        onChange={(e) => setActivityDescription(e.target.value)}
+                                        placeholder="Enter activity description..."
+                                    />
+                                    <button
+                                        className="post-activity-button"
+                                        onClick={handlePostActivity}
+                                    >
+                                        Post Activity
+                                    </button>
+                                </div>
+                            </div>
                         ) : (
                             <p>Select a file to edit</p>
                         )}
                     </div>
 
                     <div className="collaborators-sidebar">
-    <div className="collaborators-header">
-        <h3>Collaborators</h3>
-        {isOwner && (
-            <button
-                className="invite-button"
-                onClick={() => setIsInviteModalOpen(true)}
-            >
-            +
-            </button>
-        )}
-    </div>
-    <ul>
-        {collaborators.map(collaborator => (
-            <li key={collaborator.user_id} className="collaborator-item">
-                <button
-                    className="collaborator-btn"
-                    onClick={() => navigateToProfile(collaborator.user_id)}
-                >
-                    <img
-                        src={collaborator.user.profile_pic || '/default-avatar.jpg'}
-                        alt={collaborator.name}
-                        className="collaborator-avatar"
-                    />
-                    <div className="collaborator-details">
-                        <strong>{collaborator.user.username}</strong>
-                        <span className="collaborator-role">{collaborator.role}</span>
+                        <div className="collaborators-header">
+                            <h3>Collaborators</h3>
+                            {(isOwner || userPermissions.can_manage_collaborators) && (
+                                <button
+                                    className="invite-button"
+                                    onClick={() => setIsInviteModalOpen(true)}
+                                >
+                                    +
+                                </button>
+                            )}
+                        </div>
+                        <ul>
+                            {collaborators.map(collaborator => (
+                                <li key={collaborator.user_id} className="collaborator-item">
+                                    <button
+                                        className="collaborator-btn"
+                                        onClick={() => navigateToProfile(collaborator.user_id)}
+                                    >
+                                        <img
+                                            src={collaborator.user.profile_pic || defaultPfp }
+                                            alt={collaborator.name}
+                                            className="collaborator-avatar"
+                                        />
+                                        <div className="collaborator-details">
+                                            <strong>{collaborator.user.username}</strong>
+                                            <span className="collaborator-role">{collaborator.role}</span>
+                                        </div>
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                </button>
-            </li>
-        ))}
-    </ul>
-</div>
                 </div>
             )}
 

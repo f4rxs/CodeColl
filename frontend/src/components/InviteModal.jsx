@@ -42,7 +42,7 @@ const InviteModal = ({ show, onClose, projectId, ownerName, projectTitle }) => {
                 );
     
                 alert('Invitation sent successfully!');
-                onClose(); // Close modal after sending
+                onClose(); // closing modal after sending
             } catch (error) {
                 console.error('Error sending invitation:', error);
                 alert('Failed to send invitation.');

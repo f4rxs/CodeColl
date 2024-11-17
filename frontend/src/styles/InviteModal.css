@@ -53,6 +53,8 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
 }
 
+/* Style the invitation message text area */
+
 .modal-body .form-control {
     background-color: #fff;
 }

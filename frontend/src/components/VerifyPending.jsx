@@ -15,7 +15,7 @@ const VerifyPending = () => {
             const userId = localStorage.getItem('userId'); 
 
             if (!userId) {
-                setLoading(false); // Set loading to false even if userId is missing
+                setLoading(false); 
                 return; 
             }
 
@@ -23,7 +23,7 @@ const VerifyPending = () => {
                 const response = await authenticationService.checkEmailVerification(userId);
                 if (response.data.message === 'Email verified') {
                     toast.success('Email verified successfully.');
-                    setTimeout(() => navigate('/signin'), 2000); // Delay navigation by 2 seconds
+                    setTimeout(() => navigate('/signin'), 2000); 
                 } else {
                     setIsVerified(false);
                 }
@@ -45,7 +45,7 @@ const VerifyPending = () => {
             <p className="verify-pending-description">A verification link has been sent to your email. Please click the link to complete your registration.</p>
             
             {loading ? (
-                <div className="spinner"></div>  // Show spinner when loading
+                <div className="spinner"></div>  
             ) : (
                 <p className="verify-pending-message">Please wait while we verify your email...</p>
             )}

@@ -17,6 +17,7 @@
   transition: color 0.3s ease, transform 0.3s ease; /* Transition for color and transform */
 }
 
+
 /* Hover effect for navbar brand */
 .navbar-brand:hover {
   color: #ffa500; /* Change to your project's accent color */

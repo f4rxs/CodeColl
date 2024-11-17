@@ -12,7 +12,6 @@ const fileController = {
         }
     },
 
-    // Controller to get a file by ID
     findFileByIdController: async (req, res) => {
         const { fileId } = req.params;
         try {
@@ -23,7 +22,6 @@ const fileController = {
         }
     },
 
-    // Controller to get files by project ID
     findFilesByProjectController: async (req, res) => {
         const { projectId } = req.params;
         try {
@@ -34,7 +32,6 @@ const fileController = {
         }
     },
 
-    // Controller to update a file
     updateFileController: async (req, res) => {
         const { fileId } = req.params;
         const updateData = req.body;
@@ -46,7 +43,6 @@ const fileController = {
         }
     },
 
-    // Controller to delete a file
     deleteFileController: async (req, res) => {
         const { fileId } = req.params;
         try {
@@ -56,7 +52,7 @@ const fileController = {
             res.status(404).json({ message: `Error deleting file with ID ${fileId}`, error: error.message });
         }
     },    
-    // Controller to lock a file for editing
+
     lockFileForEditingController: async (req, res) => {
         const { fileId } = req.params;
         const { userId } = req.body;
@@ -68,7 +64,6 @@ const fileController = {
         }
     },
 
-    // Controller to unlock a file after editing
     unlockFileAfterEditingController: async (req, res) => {
         const { fileId } = req.params;
         const { userId } = req.body;

@@ -10,6 +10,7 @@ const fileVersionController = {
             const newFileVersion = await filleVersionService.createFileVersion(fileId, versionData);
             res.status(201).json(newFileVersion);
         } catch (error) {
+            console.error(error);
             res.status(400).json({ message: 'Error creating file version', error: error.message });
         }
     },
@@ -43,7 +44,6 @@ const fileVersionController = {
         try {
             const { fileId, versionId } = req.params;
     
-            // Restore a specific version of a file
             const restoredFile = await filleVersionService.restoreFileVersion(fileId, versionId);
             res.status(200).json(restoredFile);
         } catch (error) {

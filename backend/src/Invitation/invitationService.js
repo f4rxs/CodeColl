@@ -58,7 +58,7 @@ const invitationService = {
             
             const result = await Invitation.findAll({
                 where: {
-                    invitee_id: userId,  // Ensure the field name matches the DB column
+                    invitee_id: userId,  
                     status: 'pending'
                 }
             });
@@ -116,7 +116,6 @@ const invitationService = {
             throw new Error(`Error responding to invitation: ${error.message}`);
         }
     },
-    // Service to cancel an invitation
     cancelInvitation: async (invitationId) => {
         try {
             const invitation = await Invitation.findByPk(invitationId);
@@ -133,14 +132,13 @@ const invitationService = {
         }
     },
 
-    // Service to find all pending invitations
     findAllPendingInvitations: async () => {
         try {
             const pendingInvitations = await Invitation.findAll({
                 where: { status: 'pending' },
                 include: [
                     { model: Project, as: 'project' },
-                    { model: User, as: 'inviterUser' }  // assuming 'inviterUser' alias for inviter in Invitation model
+                    { model: User, as: 'inviterUser' }  
                 ]
             });
             if (pendingInvitations.length === 0) {

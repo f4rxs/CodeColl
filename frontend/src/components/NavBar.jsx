@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Navbar, Nav, Dropdown, Container, Form, Button } from 'react-bootstrap';
+import { Navbar, Nav, Dropdown, Container, Form } from 'react-bootstrap';
 import { FaEnvelope, FaUserCircle, FaBars, FaPlus } from 'react-icons/fa';
 import invitationService from '../services/invitationService';
 import userService from '../services/userSerivce';
@@ -17,7 +17,6 @@ const AppNavbar = ({ userId }) => {
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-    const token = JSON.parse(localStorage.getItem('token'));
 
     useEffect(() => {
         if (loggedUser && loggedUser.id && !user) { 
@@ -32,9 +31,7 @@ const AppNavbar = ({ userId }) => {
             fetchUserData();
         }
     }, [loggedUser, user]);
-    
 
-    // Navigation helpers
     const navigateToProfile = (profileUserId) => {
         navigate(`/profile/${profileUserId}`, {
             state: { showEditButton: profileUserId === loggedUser.id }
@@ -51,8 +48,6 @@ const AppNavbar = ({ userId }) => {
                 try {
                     const response = await invitationService.findInvitationForUser(userId);
                     setNotifications(Array.isArray(response.data) ? response.data : []); 
-                    console.log(response.data);
-                    
                 } catch (error) {
                     console.error('Error fetching invitations:', error);
                     setNotifications([]);
@@ -61,7 +56,6 @@ const AppNavbar = ({ userId }) => {
             fetchInvitations();
         }
     }, [userId]);
-    
 
     const handleNotificationClick = async (notificationId, response) => {
         try {
@@ -86,13 +80,14 @@ const AppNavbar = ({ userId }) => {
         if (!searchQuery.trim()) return;
 
         try {
-            const [userResponse, projectResponse] = await Promise.all([
-                userService.searchUserByUsername(searchQuery),
-                projectService.searchProjects(searchQuery)
-            ]);
+            const userPromise = userService.searchUserByUsername(searchQuery);
+            const projectPromise = projectService.searchProjects(searchQuery);
+
+            const [userResponse, projectResponse] = await Promise.allSettled([userPromise, projectPromise]);
+
             setSearchResults({
-                users: userResponse.data,
-                projects: projectResponse.data
+                users: userResponse.status === 'fulfilled' ? userResponse.value.data : [],
+                projects: projectResponse.status === 'fulfilled' ? projectResponse.value.data : []
             });
         } catch (error) {
             console.error('Error searching', error);
@@ -129,7 +124,7 @@ const AppNavbar = ({ userId }) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <Navbar.Brand  className="d-flex align-items-center" onClick={() => navigate(`/home`)}>
+                <Navbar.Brand className="d-flex align-items-center" onClick={() => navigate(`/home`)}>
                     <img src={avatar} alt="Logo" className="avatar-logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
                     <span className="dashboard-text">Dashboard</span>
                 </Navbar.Brand>

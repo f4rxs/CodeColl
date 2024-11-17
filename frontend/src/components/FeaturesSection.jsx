@@ -1,4 +1,3 @@
-// FeaturesSection.jsx
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { FaUsers, FaCode, FaHistory } from 'react-icons/fa';

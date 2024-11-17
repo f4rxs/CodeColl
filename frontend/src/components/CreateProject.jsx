@@ -18,7 +18,6 @@ const CreateProject = ({ userId }) => {
         };
 
         try {
-            // Call the createProject function from the service
             const response = await projectService.createProject(projectData);
             setSuccessMessage(`Project '${response.data.project.project_name}' created successfully!`);
             setProjectName('');

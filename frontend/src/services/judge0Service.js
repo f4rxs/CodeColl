@@ -6,10 +6,10 @@ const JUDGE0_API_URL = 'https://judge0-ce.p.rapidapi.com';
 const runCode = async (code, language) => {
     try {
         const response = await axios.post(`http://localhost:5000/judge0/run`, {
-            "language_id": language, // Judge0 uses numeric IDs for languages
+            "language_id": language, 
             "source_code": code,
-            "stdin": '', // If needed, you can pass input here
-            "expected_output": '', // You can optionally pass expected output for comparison
+            "stdin": '', 
+            "expected_output": '',
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ const runCode = async (code, language) => {
 
         
         console.log('Resonse:', response)
-        const submissionId = response.data.result.token; // Judge0 returns a submission token
+        const submissionId = response.data.result.token; 
 
         // Now, check the status of the code execution
         const result = await getResult(submissionId);

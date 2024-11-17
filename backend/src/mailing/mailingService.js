@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// Initialize transporter outside the object to avoid context issues
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -45,6 +44,7 @@ const mailingService = {
     });
   },
 
+  //not implemented yet
   async sendResetPasswordMail(to, resetToken) {
     const resetUrl = `http://localhost:5000/reset-password/${resetToken}`;
     const subject = 'Reset Your Password';

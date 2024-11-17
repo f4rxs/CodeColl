@@ -336,6 +336,115 @@ body {
     background: #0056b3;
 }
 
+.file-editor-container ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.file-editor-container ::-webkit-scrollbar-track {
+    background: #2c2f38;
+}
+
+.file-editor-container ::-webkit-scrollbar-thumb {
+    background: #3e4a58;
+    border-radius: 5px;
+}
+
+.file-editor-container ::-webkit-scrollbar-thumb:hover {
+    background: #57606f;
+}
+
+/* Firefox */
+.file-editor-container {
+    scrollbar-width: thin;
+    scrollbar-color: #3e4a58 #2c2f38;
+}
+
+/* Dark dropdown styling */
+.language-selector select {
+    background-color: #2c2f38;
+    color: #f5f5f5;
+    border: 1px solid #3e4a58;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.language-selector select:hover {
+    background-color: #3e4a58;
+    border-color: #57606f;
+}
+
+.language-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(87, 96, 111, 0.5);
+}
+
+/* Customize the dropdown arrow */
+.language-selector select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f5f5f5' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M480 696 280 496h400L480 696Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+/* Activity input container */
+.activity-input {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Input field styling */
+.activity-input input {
+    flex: 1;
+    background-color: #2c2f38; /* Dark background */
+    color: #f5f5f5; /* Light text */
+    border: 1px solid #3e4a58; /* Subtle border */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    outline: none;
+}
+
+/* Placeholder text styling */
+.activity-input input::placeholder {
+    color: #888; /* Slightly muted color for placeholders */
+}
+
+/* Button styling */
+.post-activity-button {
+    background-color: #3e3a48; /* Darker background for the button */
+    color: #ffffff; /* Light text */
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+}
+
+/* Button hover effect */
+.post-activity-button:hover {
+    background-color: #6a5acd; /* Purple background on hover */
+    color: #ffffff; /* Ensure text remains visible */
+}
+
+/* Button focus effect */
+.post-activity-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(106, 90, 205, 0.7); /* Focus shadow in purple */
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .project-container {

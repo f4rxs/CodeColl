@@ -1,4 +1,3 @@
-// src/Judge0/judge0Controller.js
 const runCode = require('./judge0Service');
 
 const runCodeController = async (req, res) => {

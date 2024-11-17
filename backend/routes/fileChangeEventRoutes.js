@@ -3,13 +3,13 @@ const fileChangeController = require('../src/FileChangeEvent/fileChangeEventCont
 
 const router = express.Router();
 
-
+const auth = require('../middleware/auth');
 //POST ROUTES
-router.post('/', fileChangeController.logFileChangeEventController); // tested
+router.post('/',auth, fileChangeController.logFileChangeEventController); // tested
 
 //GET ROUTES
-router.get('/session/:session_id', fileChangeController.getFileChangeEventsBySessionController); // tested
-router.get('/:file_id', fileChangeController.getFileChangeEventsByFileController); //tested
+router.get('/session/:session_id',auth ,fileChangeController.getFileChangeEventsBySessionController); // tested
+router.get('/:file_id',auth ,fileChangeController.getFileChangeEventsByFileController); //tested
 
 
 module.exports = router;

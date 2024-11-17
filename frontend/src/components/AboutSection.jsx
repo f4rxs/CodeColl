@@ -1,8 +1,7 @@
-// AboutSection.jsx
 import React from "react";
 import { Container } from "react-bootstrap";
 import ScrollAnimation from "../components/animation/ScrollAnimation";
-import { fadeInUp } from "../components/animation/animation"; // Importing fadeInUp animation variant
+import { fadeInUp } from "../components/animation/animation"; 
 import '../styles/AboutSection.css';
 
 const AboutSection = () => (

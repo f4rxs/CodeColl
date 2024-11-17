@@ -1,3 +1,4 @@
+const userService = require('../User/userService');
 const ActivityLog = require('./activityLog');
 
 const logActivityService = {
@@ -13,7 +14,7 @@ const logActivityService = {
             throw new Error(`Error logging activity: ${error.message}`);
         }
     },
-     findActivitiesByProject : async (projectId) => {
+    findActivitiesByProject: async (projectId) => {
         try {
             const activities = await ActivityLog.findAll({
                 where: { project_id: projectId }
@@ -23,11 +24,22 @@ const logActivityService = {
                 throw new Error(`No activities found for project with ID ${projectId}`);
             }
     
-            return activities;
+            const activitiesWithUsernames = await Promise.all(
+                activities.map(async (activity) => {
+                    const user = await userService.searchUserById(activity.dataValues.user_id);
+                    return {
+                        ...activity.dataValues,
+                        username: user ? user.username : "Unknown User"
+                    };
+                })
+            );
+    
+            return activitiesWithUsernames;
         } catch (error) {
             throw new Error(`Error finding activities for project ${projectId}: ${error.message}`);
         }
     },
+    
     
      findActivitiesByUser : async (userId) => {
         try {

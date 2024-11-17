@@ -67,7 +67,7 @@ const userController = {
             res.status(500).json({ message: 'Error updating password', error: error.message });
         }
     },
-    // Get User by ID
+
     getUserByIdController: async (req, res) => {
         const userId = req.params.id;
         try {
@@ -82,7 +82,6 @@ const userController = {
         }
     },
 
-    // Get All Users
     findAllUsersController: async (req, res) => {
         try {
             const users = await userService.findAllUsers();
@@ -117,7 +116,6 @@ const userController = {
         }
     },
 
-    // Delete User
     deleteUserController: async (req, res) => {
         const userId = req.params.id;
         try {
@@ -131,7 +129,7 @@ const userController = {
             res.status(500).json({ message: `Error deleting user with ID ${userId}`, error: error.message });
         }
     },
-    // Update User Email
+
     updateUserEmailController: async (req, res) => {
         const userId = req.params.id;
         const { newEmail } = req.body;
@@ -178,13 +176,13 @@ const userController = {
     updateUserProfilePicController: async (req, res) => {
         const userId = req.params.id;
         console.log('Uploaded file:', req.file);
-        const profilePicPath = req.file ? req.file.path : null; // multer stores the file path here
+        const profilePicPath = req.file ? req.file.path : null; 
         if (!profilePicPath) {
             return res.status(400).json({ message: 'No profile picture file provided' });
         }
     
         try {
-            // Assuming uploadImageToImgBB is a function to upload the file to an external service
+
             const profilePicUrl = await uploadImageToImgBB(profilePicPath);
             
             // Update user profile picture in the database

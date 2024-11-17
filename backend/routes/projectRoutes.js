@@ -12,23 +12,23 @@ const {
 
 const auth = require('../middleware/auth');
 //GET ROUTES
-router.get('/:id', validateRequest, projectController.findProjectByIdController); //tested*
-router.get('/search/:term', validateSearchTerm, validateRequest, projectController.searchProjectsController);//tested*
-router.get('/user/:userId', validateUserId, validateRequest, projectController.findProjectsByUserController);  //tested*
-router.get('/overview/:id', validateProjectId, validateRequest, projectController.getProjectOverviewController); //tested*
-router.get('/project/archived/', projectController.getArchivedProjectsController); //tested*
+router.get('/:id',auth ,validateRequest, projectController.findProjectByIdController); //tested*
+router.get('/search/:term',auth ,validateSearchTerm, validateRequest, projectController.searchProjectsController);//tested*
+router.get('/user/:userId',auth ,validateUserId, validateRequest, projectController.findProjectsByUserController);  //tested*
+router.get('/overview/:id',auth ,validateProjectId, validateRequest, projectController.getProjectOverviewController); //tested*
+router.get('/project/archived/',auth ,projectController.getArchivedProjectsController); //tested*
 
 //POST ROUTES 
-router.post('/duplicate/:id', validateProjectId, validateRequest, projectController.duplicateProjectController); //tested*
+router.post('/duplicate/:id',auth ,validateProjectId ,validateRequest, projectController.duplicateProjectController); //tested*
 router.post('/', validateProjectCreation, validateRequest, projectController.createProjectController); // tested*
 
 //PUT ROUTES 
-router.put('/:id', validateProjectId, validateProjectUpdate, validateRequest, projectController.updateProjectController); //tested*
-router.put('/archive/:id', validateProjectId, validateRequest, projectController.archiveProjectController);  //tested*
-router.put('/restore/:id', validateProjectId, validateRequest, projectController.restoreArchivedProjectController); //tested*
+router.put('/:id',auth ,validateProjectId, validateProjectUpdate, validateRequest, projectController.updateProjectController); //tested*
+router.put('/archive/:id',auth ,validateProjectId, validateRequest, projectController.archiveProjectController);  //tested*
+router.put('/restore/:id',auth ,validateProjectId, validateRequest, projectController.restoreArchivedProjectController); //tested*
 
 //DELETE ROUTES 
-router.delete('/:id', validateProjectId, validateRequest, projectController.deleteProjectController); //tested*
+router.delete('/:id',auth ,validateProjectId, validateRequest, projectController.deleteProjectController); //tested*
 
 
 module.exports = router;

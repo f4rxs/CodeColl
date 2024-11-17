@@ -3,7 +3,6 @@ const fs = require('fs');
 const FormData = require('form-data');
 const path = require('path');
 
-// Function to upload image to ImgBB
 const uploadImageToImgBB = async (imagePath) => {
   try {
     const formData = new FormData();

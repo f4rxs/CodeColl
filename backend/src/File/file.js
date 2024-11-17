@@ -37,8 +37,6 @@ const File = sequelize.define('File', {
   tableName: 'files',
 });
 
-// File.belongsTo(User, { foreignKey: 'locked_by', as: 'lockedByUser' });
-// File.belongsTo(Project, { foreignKey: 'project_id', as: 'project' });
 
 
 module.exports = File;

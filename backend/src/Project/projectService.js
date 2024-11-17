@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const Project = require('../Project/project');
 const Collaborator = require('../ProjectCollaborator/projectCollaborators');
 const User = require('../User/user');
+
 const projectService = {
      createProject : async (projectData) => {
         try {
@@ -14,6 +15,8 @@ const projectService = {
             }
     
             const newProject = await Project.create(projectData);
+
+            //directly setting the owner as a collaborator
             await Collaborator.create({
                 user_id: owner_id,
                 project_id: newProject.id,

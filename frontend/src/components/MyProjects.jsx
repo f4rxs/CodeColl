@@ -1,4 +1,3 @@
-// src/pages/MyProjects.js
 import React, { useEffect, useState } from 'react';
 import projectService from '../services/projectService'; 
 import { useNavigate } from 'react-router-dom';

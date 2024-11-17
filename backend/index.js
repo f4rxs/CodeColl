@@ -33,9 +33,9 @@ app.use(express.json());
 
 
 
-app.get('/CodeColl', (req, res) => {
-    res.send('Welcome');
-});
+// app.get('/CodeColl', (req, res) => {
+//     res.send('Welcome');
+// });
 
 app.use('/users', userRoutes);
 app.use('/projects', projectRoutes);

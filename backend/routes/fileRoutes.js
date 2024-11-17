@@ -9,21 +9,21 @@ const {
     validateUserId,
     validateVersionId
 } = require('../src/File/fileValidator');
-
+const auth = require('../middleware/auth');
 //GET ROUTES (2/2)
-router.get('/:fileId', validateFileId, validateRequest, fileController.findFileByIdController); //tested*
+router.get('/:fileId',auth ,validateFileId, validateRequest, fileController.findFileByIdController); //tested*
 router.get('/project/:projectId', validateProjectId, validateRequest, fileController.findFilesByProjectController); //tested*
 
 //POST ROUTES 
-router.post('/:projectId', validateProjectId, validateRequest, fileController.createFileController); //tested*
+router.post('/:projectId',auth ,validateProjectId, validateRequest, fileController.createFileController); //tested*
 
 //PUT ROUTES (4/4) 
-router.put('/:fileId', validateRequest, fileController.updateFileController); //tested*
-router.put('/lock/:fileId', validateFileId, validateUserId, validateRequest, fileController.lockFileForEditingController);  //tested*
+router.put('/:fileId',auth ,validateRequest, fileController.updateFileController); //tested*
+router.put('/lock/:fileId',auth ,validateFileId, validateUserId, validateRequest, fileController.lockFileForEditingController);  //tested*
 router.put('/unlock/:fileId', validateFileId, validateUserId, validateRequest, fileController.unlockFileAfterEditingController);  //tested* 
 
 //DELETE ROUTES
-router.delete('/:fileId', validateFileId, validateRequest, fileController.deleteFileController); //tested*
+router.delete('/:fileId',auth ,validateFileId, validateRequest, fileController.deleteFileController); //tested*
 
 
 

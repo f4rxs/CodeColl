@@ -3,15 +3,38 @@ const FileVersion = require('./fileVersion');
 const filleVersionService = {
      createFileVersion : async (fileId, versionData) => {
         try {
+            // Step 1: Find the latest version for the given file
+            const latestVersion = await FileVersion.findOne({
+                where: { file_id: fileId },
+                order: [['version_number', 'DESC']] // Get the latest version by descending order
+            });
+    
+            let newVersionNumber;
+            
+            if (latestVersion) {
+                // If a version exists, increment the minor version
+                const [major, minor] = latestVersion.version_number.split('.').map(Number);
+                newVersionNumber = `${major}.${minor + 1}`;
+            } else {
+                // If no version exists, start with version 1.0
+                newVersionNumber = '1.0';
+            }
+    
+            // Step 2: Create the new version
             const newFileVersion = await FileVersion.create({
                 file_id: fileId,
-                ...versionData
+                version_number: newVersionNumber,  // Set the version number
+                content: versionData.content,      // Save the content
+                timestamp: versionData.timestamp,  // Save the timestamp
+                context: versionData.context       // Save the context (if provided)
             });
+    
             return newFileVersion;
         } catch (error) {
             throw new Error(`Error creating file version: ${error.message}`);
         }
     },
+    
     
      findFileVersions : async (fileId) => {
         try {

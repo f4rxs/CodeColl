@@ -25,9 +25,7 @@
 }
 
 .swimlane-image {
-    width: 100%; /* Full width for responsive image */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 90%; /* Limit max-width to avoid overflow */
+    width: 80%; /* Full width for responsive image */
     margin-left: auto; /* Center image in the column */
     display: block; /* Ensure image is block level */
 }

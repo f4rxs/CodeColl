@@ -39,9 +39,7 @@ const Collaborator = sequelize.define('Collaborator', {
   tableName: 'project_collaborators',
 });
 
-// Define associations
-// Collaborator.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
-// Collaborator.belongsTo(Project, { foreignKey: 'project_id', as: 'project' });
+
 
 
 module.exports = Collaborator;

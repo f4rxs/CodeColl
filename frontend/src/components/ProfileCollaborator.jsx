@@ -1,8 +1,8 @@
-// CollaboratorProfilePage.js
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import projectCollaboratorService from '../services/projectCollaboratorService';
 import { Button, Form, Spinner } from 'react-bootstrap';
+import '../styles/ProfileCollaborator.css';  
 
 const CollaboratorProfilePage = () => {
     const { userId, projectId } = useParams(); 
@@ -53,8 +53,8 @@ const CollaboratorProfilePage = () => {
         }
     };
 
-    if (loading) return <Spinner animation="border" role="status">Loading...</Spinner>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <Spinner animation="border" role="status" className="spinner-border" />;
+    if (error) return <p className="alert alert-danger">{error}</p>;
 
     return (
         <div className="collaborator-profile">
