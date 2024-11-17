@@ -208,3 +208,75 @@ Follow the steps below to set up and run the project:
 
     After completing the setup, the frontend will run on http://localhost:3000, and the backend will run on http://localhost:5000 (or the port specified in your .env file).
 
+
+## **Use Case Scenario**
+
+### **Scenario: User Login and Project Collaboration**
+
+1. **Actor**: Registered User.
+2. **Preconditions**: 
+   - The user is registered and verified.
+   - The user has been assigned to at least one project or has permissions to create a project.
+3. **Steps**:
+   1. The user navigates to the login page and enters their credentials (username and password).
+   2. The backend validates the credentials and generates a JSON Web Token (JWT).
+   3. The user is redirected to their dashboard, which displays:
+      - All active projects they own or collaborate on.
+      - A summary of recent activity logs.
+      - Pending invitations.
+   4. The user selects a project to open.
+   5. Based on permissions:
+      - If the user has `can_edit` permissions, they can edit files.
+      - If the user has `can_manage_collaborators`, they can invite collaborators.
+      - If the user has no edit or manage permissions, they can only view project details.
+   6. Any actions (editing files, locking files, posting activity logs) are recorded in the activity logs.
+4. **Postconditions**:
+   - The system logs actions in the activity logs table.
+   - Collaboration sessions and permissions are respected.
+
+---
+
+## **Context Diagram**
+
+### **Context Diagram for User Login and Project Collaboration**
+
+```plaintext
+  +-------------------------+
+  |                         |
+  |         User            |
+  |                         |
+  +-----------+-------------+
+              |
+              | 1. Login request with credentials
+              v
+  +-----------+-------------+
+  |                         |
+  |    Authentication       |
+  |   (JWT Generation)      |
+  |                         |
+  +-----------+-------------+
+              |
+              | 2. Redirect with JWT
+              v
+  +-----------+-------------+
+  |                         |
+  |     User Dashboard      |
+  |                         |
+  +-----------+-------------+
+              |
+              | 3. Select project
+              v
+  +-----------+-------------+
+  |                         |
+  |    Backend Services     |
+  |   (Projects, Files,     |
+  |   Permissions, etc.)    |
+  +-----------+-------------+
+              |
+              | 4. Fetch or update project data
+              v
+  +-----------+-------------+
+  |                         |
+  |   PostgreSQL / MongoDB  |
+  |                         |
+  +-------------------------+
