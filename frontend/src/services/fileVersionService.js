@@ -19,6 +19,14 @@ const findFileVersions = (fileId) => {
     });
 };
 
+const getFileVersionContext = (fileId, versionNumber) => {
+    return httpCommon.get(`/file/version/${fileId}/version/${versionNumber}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    });
+};
+
 // Find the latest version for a specific file
 const findLatestFileVersion = (fileId) => {
     return httpCommon.get(`/file/version/latest/${fileId}`, {
@@ -41,6 +49,7 @@ const restoreFileVersion = (fileId, versionId) => {
 const fileVersionService = {
     createFileVersion,
     findFileVersions,
+    getFileVersionContext,
     findLatestFileVersion,
     restoreFileVersion
 };

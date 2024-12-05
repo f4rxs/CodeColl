@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import fileService from '../services/fileService';
 import fileVersionService from '../services/fileVersionService';
 import '../styles/FileTree.css';
@@ -23,6 +24,10 @@ const FileTree = ({
   const [selectedFileId, setSelectedFileId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  
+  const navigate = useNavigate();
+
+
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -40,6 +45,11 @@ const FileTree = ({
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
+
+
+  const handleViewVersion = (fileId, versionId) => {
+    navigate(`/file/${fileId}/version/${versionId}`);
+  };
 
   const handleRightClick = async (e, fileId, currentName) => {
     e.preventDefault();
@@ -241,20 +251,18 @@ const FileTree = ({
       </div>
 
       {showContextMenu && (
-        <div 
-          className="context-menu"
-          style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-          onClick={handleCloseContextMenu}
-        >
-          <div className="context-menu-header">File Versions</div>
-          <ul>
-            {fileVersions.map((version) => (
-              <li key={version.id} onClick={() => handleRestoreVersion(version.id)}>
-                Version {version.version_number}: {version.created_at}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <div className="context-menu">
+        <div className="context-menu-header">File Versions</div>
+        <ul>
+          {fileVersions.map((version) => (
+            <li key={version.id}>
+              <button onClick={() => handleViewVersion(selectedFileId, version.version_number)}>
+                View Version {version.version_number}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
       )}
     </div>
   );

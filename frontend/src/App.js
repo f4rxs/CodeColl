@@ -12,7 +12,7 @@ import ProjectCreationPage from './pages/ProjectCreationPage';
 import MyProjects from './pages/MyProjectsPage';
 import ProjectPage from './pages/ProjectPage';
 import CollaboratorProfilePage from './components/ProfileCollaborator';
-
+import FileVersionPage from './components/FileVersion';
 function App() {
   return (
     <Router>
@@ -28,6 +28,7 @@ function App() {
         <Route path="/my-projects" element={<MyProjects/>}/>
         <Route path="/projects/:projectId" element={<ProjectPage />} /> {/* Updated path */}
         <Route path="/collaborator/:userId/permissions/:projectId" element={<CollaboratorProfilePage />} />
+        <Route path="/file/:fileId/version/:versionNumber" element={<FileVersionPage />} />;
       </Routes>
     </Router>
   );

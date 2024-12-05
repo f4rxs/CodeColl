@@ -1,0 +1,64 @@
+/* Overall page styling */
+.file-version-page {
+    background-color: #1e2024;
+    color: #f5f5f5;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+  }
+  
+  /* Header for the version page */
+  .version-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #76d7c4; 
+  }
+  
+  /* Styled container for the version content */
+  .version-content {
+    background-color: #0d1117;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+  
+  /* Actions container */
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  /* Button styling */
+  .restore-button, .back-button {
+    background-color: #76d7c4; /* Light green */
+    color: #1e2024;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .restore-button:hover, .back-button:hover {
+    background-color: #5fb499; /* Darker green */
+  }
+  
+  .back-button {
+    background-color: #e74c3c; /* Red */
+  }
+  
+  .back-button:hover {
+    background-color: #c0392b; /* Darker red */
+  }
+  
+  /* Loading and error messages */
+  .loading-message, .error-message {
+    text-align: center;
+    font-size: 18px;
+    color: #f5f5f5;
+  }

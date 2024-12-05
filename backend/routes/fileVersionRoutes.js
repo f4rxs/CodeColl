@@ -11,6 +11,8 @@ const auth = require('../middleware/auth');
 //GET ROUTES
 router.get('/:fileId',auth ,validateFileId, validateRequest, fileVersionController.findFileVersionsController); //tested
 router.get('/latest/:fileId',auth ,validateFileId, validateRequest, fileVersionController.findLatestFileVersionController); //tested
+router.get('/:fileId/version/:versionNumber', auth, fileVersionController.getFileVersionContextController);
+
 
 //POST ROUTES
 router.post('/:fileId',auth ,validateRequest, fileVersionController.createFileVersionController);  //tested
