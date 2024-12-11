@@ -7,7 +7,7 @@ import '../styles/Signin.css';
 import FadeIn from './animation/FadeIn';
 import Footer from './Footer';
 
-const SignIn = () => {
+const SignIn = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,8 @@ const SignIn = () => {
       const token = JSON.parse(localStorage.getItem('token'));
 
       toast.success(response.data.message);
-      setTimeout(() => navigate(`/home`), 1000);
+      setIsAuthenticated(true);
+       navigate(`/home`);
     } catch (err) {
       // Retrieve the full error message sent from the backend
       const errorMessage = err.response?.data?.message || 'Failed to log in. Please check your credentials.';

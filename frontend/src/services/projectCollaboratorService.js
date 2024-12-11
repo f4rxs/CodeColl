@@ -20,7 +20,7 @@ const findCollaboratorsByProject = (projectId) => {
 };
 
 const updateCollaboratorRole = (projectId, userId, newRole) => {
-    return httpCommon.put(`/projectCollaborators/${projectId}/${userId}`, 
+    return httpCommon.put(`/project/collaborator/${projectId}/${userId}`, 
     { newRole },
     {
         headers: {
@@ -30,7 +30,7 @@ const updateCollaboratorRole = (projectId, userId, newRole) => {
 };
 
 const removeCollaborator = (projectId, userId) => {
-    return httpCommon.delete(`/projectCollaborators/${projectId}/${userId}`, {
+    return httpCommon.delete(`/project/collaborator/${projectId}/${userId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -38,7 +38,7 @@ const removeCollaborator = (projectId, userId) => {
 };
 
 const getCollaboratorUsernames = (projectId) => {
-    return httpCommon.get(`/projectCollaborators/usernames/${projectId}`, {
+    return httpCommon.get(`/project/collaborator/usernames/${projectId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }

@@ -158,3 +158,11 @@ button.btn-danger {
 button.btn-danger:hover {
   background-color: #b71c1c;
 }
+.online-badge {
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin-left: 10px;
+  font-size: 12px;
+}

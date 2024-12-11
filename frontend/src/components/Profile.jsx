@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState  } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Image, Button, Form } from 'react-bootstrap';
 import { LockFill, PencilSquare } from 'react-bootstrap-icons';
 import defaultPfp from '../assests/defaultpfp.png';
+import { useSocket } from '../Context/SocketContext';
 import '../styles/ProfilePage.css';
 import userService from '../services/userSerivce';
 
@@ -14,6 +16,12 @@ const ProfilePage = ({ showEditButton, userId }) => {
   const [newSkills, setNewSkills] = useState([]);
   const [newProfilePic, setNewProfilePic] = useState('');
   const [profilePicFile, setProfilePicFile] = useState(null);
+  const { onlineUsers } = useSocket();
+  const navigate = useNavigate();
+
+  // Determine if the current profile user is online
+  const isOnline = onlineUsers.includes(userId);
+
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -90,6 +98,15 @@ const ProfilePage = ({ showEditButton, userId }) => {
     return <p className="loading-text">Loading profile...</p>;
   }
 
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    localStorage.removeItem('loggedUser'); 
+    navigate('/signin');
+    window.location.reload();
+  };
+
+
   return (
     <Container fluid className="profile-page-container">
       <Row className="justify-content-center">
@@ -106,7 +123,9 @@ const ProfilePage = ({ showEditButton, userId }) => {
               </>
             )}
           </div>
-          <h2 className="profile-name">{user.username || "Username"}</h2>
+          <h2 className="profile-name">{user.username || "Username"}
+          {isOnline && <span className="online-badge">Online</span>}
+          </h2>
           <div className="bio-container">
             {editMode ? (
               <Form.Control as="textarea" rows={3} value={newBio} onChange={handleBioChange} className="edit-input" />
@@ -162,6 +181,14 @@ const ProfilePage = ({ showEditButton, userId }) => {
               <Button className='edit-button' variant="primary" onClick={handleEditProfileClick}>Edit Profile</Button>
             )
           )}
+          {showEditButton && (
+               <Row className="justify-content-center mt-3"> 
+               <Col md={6} className="text-center">
+                 <Button className="logout-button" variant="danger" onClick={handleLogout}>Logout</Button>
+               </Col>
+             </Row>
+              )}
+         
         </Col>
       </Row>
     </Container>

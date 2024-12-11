@@ -240,7 +240,7 @@ const Project = ({ projectId }) => {
                                         <div className="collaborator-details">
                                             <strong>{collaborator.user.username}</strong>
                                             <span className="collaborator-role">{collaborator.role}</span>
-                                        </div>
+                                        </div>                                     
                                     </button>
                                 </li>
                             ))}

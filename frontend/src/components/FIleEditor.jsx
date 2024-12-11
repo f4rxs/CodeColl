@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import fileService from '../services/fileService';
 import fileVersionService from '../services/fileVersionService';
-import { getCodeSuggestion } from '../services/aiService';
+import  getCodeSuggestion  from '../services/aiService';
 import { runCode } from '../services/judge0Service';
 import { toast, ToastContainer } from 'react-toastify';
-
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // Map for language names to Judge0's language IDs
 const languageMap = {
     javascript: '63',
@@ -43,13 +44,13 @@ const FileEditor = ({ fileId, canEdit }) => {
     const handleEditorChange = (newContent) => {
         if (canEdit) {
             setContent(newContent);
-        } 
+        }
     };
 
     const handleSave = async () => {
         if (!canEdit) {
             alert("You don't have permission to save this file.");
-            
+
             return;
         }
 
@@ -149,7 +150,7 @@ const FileEditor = ({ fileId, canEdit }) => {
                     onChange={handleEditorChange}
                     theme="custom-dark"
                     options={{
-                        readOnly: !canEdit, 
+                        readOnly: !canEdit,
                     }}
                 />
                 <div className="editor-buttons">
@@ -166,19 +167,29 @@ const FileEditor = ({ fileId, canEdit }) => {
             </div>
 
 
-            {/* this feature is not set  */}
-            {suggestion && (
+            {suggestion && typeof suggestion === 'string' && (
                 <div className="suggestion-box">
                     <h4>AI Suggestion:</h4>
-                    <pre>{suggestion}</pre>
-                    <button onClick={() => setContent(content + suggestion)} disabled={!canEdit}>
-                        Apply Suggestion
-                    </button>
-                    <button onClick={() => setSuggestion('')}>
-                        Dismiss
-                    </button>
+                    <SyntaxHighlighter language={language} style={atomDark}>
+                        {suggestion}
+                    </SyntaxHighlighter>
+                    <div className="suggestion-actions">
+                        <button
+                            onClick={() => setContent(content + suggestion)}
+                            disabled={!canEdit}
+                            className="apply-suggestion-button"
+                        >
+                            Apply Suggestion
+                        </button>
+                        <button
+                            onClick={() => setSuggestion('')}
+                            className="dismiss-suggestion-button"
+                        >
+                            X
+                        </button>
+                    </div>
                 </div>
-            )}
+             )} 
             {executionResult && (
                 <div className="execution-result">
                     <h4>Execution Result:</h4>
