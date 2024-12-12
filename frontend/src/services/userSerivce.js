@@ -1,11 +1,20 @@
 import httpCommon from "../http-common";
-import { getTokenBearer } from '../utils/utils';
+import { getToken, getTokenBearer } from '../utils/utils';
 
 // Get user by ID
 const getUserById = (userId) => {
     return httpCommon.get(`/users/${userId}`, {
         headers: { Authorization: getTokenBearer() }
     });
+};
+
+const getUserByIds = async (userIds) => {
+    const response = await httpCommon.post(
+        '/users/all/details',
+        { userIds }, // Send `userIds` in the request body
+        { headers: { Authorization: getTokenBearer() } } 
+    );
+    return response.data;
 };
 
 // Get all users
@@ -89,6 +98,7 @@ const deleteUser = (userId) => {
 
 const userService = {
     getUserById,
+    getUserByIds,
     getAllUsers,
     searchUserByEmail,
     searchUserByUsername,

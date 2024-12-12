@@ -142,6 +142,23 @@ const userService = {
             throw new Error(`Error in finding the user with id ${userId}`);
         }
     },
+
+    searchUsersByIds: async (userIds) => {
+        try {
+            const users = await User.findAll({
+                where: {
+                    id: userIds, 
+                },
+            });
+            if (!users.length) {
+                throw new Error('No users found for the given IDs');
+            }
+            return users;
+        } catch (error) {
+            throw new Error(`Error in finding users: ${error.message}`);
+        }
+    },
+
     searchUserByUsername: async (term) => {
         try {
             const users = await User.findAll({

@@ -21,6 +21,10 @@ router.get('/search/email', authenicateToken, userController.searchUserByEmailCo
 router.get('/search/:term', authenicateToken, userController.searchUserByUsernameController);
 router.get('/profile/:id', authenicateToken, validateUserId, validateRequest, userController.getUserProfileController);
 
+// POST ROUTES
+router.post('/all/details', userController.getUsersByIdsController);
+
+
 // PUT ROUTES
 router.put('/:id', authenicateToken,upload.single(`profile_pic`) ,validateUserId, validateUpdateUser, validateRequest, userController.updateUserController);
 router.put('/changeEmail/:id', authenicateToken, validateUserId, validateEmailChange, validateRequest, userController.updateUserEmailController);

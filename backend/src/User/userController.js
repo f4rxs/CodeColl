@@ -82,6 +82,17 @@ const userController = {
         }
     },
 
+
+    getUsersByIdsController: async (req, res) => {
+        const { userIds } = req.body; 
+        try {
+            const users = await userService.searchUsersByIds(userIds);
+            res.status(200).json(users);
+        } catch (error) {
+            res.status(500).json({ message: 'Error fetching users', error: error.message });
+        }
+    },
+
     findAllUsersController: async (req, res) => {
         try {
             const users = await userService.findAllUsers();

@@ -25,6 +25,62 @@ const collaborationSessionService = {
             throw new Error(`Error starting session: ${error.message}`);
         }
     },
+
+
+    addUserToSession: async (sessionId, userId) => {
+        try {
+            const session = await CollaborationSession.findById(sessionId);
+            if (!session) {
+                throw new Error(`Session with ID ${sessionId} does not exist`);
+            }
+
+            // Add user to active users
+            if (!session.active_users.includes(userId)) {
+                session.active_users.push(userId);
+                await session.save();
+            }
+
+            return session;
+        } catch (error) {
+            throw new Error(`Error adding user to session: ${error.message}`);
+        }
+    },
+
+
+     // Method to remove a user from the session
+     removeUserFromSession: async (sessionId, userId) => {
+        try {
+            const session = await CollaborationSession.findById(sessionId);
+            if (!session) {
+                throw new Error(`Session with ID ${sessionId} does not exist`);
+            }
+
+            // Remove user from active users array
+            session.active_users = session.active_users.filter(user => user.toString() !== userId.toString());
+
+            await session.save();
+
+            return session;
+        } catch (error) {
+            throw new Error(`Error removing user from session: ${error.message}`);
+        }
+    },
+
+
+
+    getSessionById: async (sessionId) => {
+        try {
+            const session = await CollaborationSession.findById(sessionId)
+                
+            
+            if (!session) {
+                throw new Error(`Session with ID ${sessionId} not found`);
+            }
+            return session;
+        } catch (error) {
+            throw new Error(`Error fetching session by ID ${sessionId}: ${error.message}`);
+        }
+    },
     
      endSession : async (sessionId) => {
         try {

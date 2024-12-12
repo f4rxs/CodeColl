@@ -51,7 +51,7 @@ const InviteModal = ({ show, onClose, projectId, ownerName, projectTitle }) => {
     };
 
     return (
-        <Modal show={show} onHide={onClose} centered>
+        <Modal show={show} onHide={onClose} centered className="invite-modal">
             <Modal.Header closeButton>
                 <Modal.Title>Invite a Collaborator</Modal.Title>
             </Modal.Header>

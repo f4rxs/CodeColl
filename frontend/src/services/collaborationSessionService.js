@@ -4,7 +4,7 @@ import { getToken } from '../utils/utils';
 
 // Start a new collaboration session
 const startSession = (projectId, data) => {
-    return httpCommon.post(`/collaboration-sessions/${projectId}`, data, {
+    return httpCommon.post(`/collaboration/session/${projectId}`, data, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -13,16 +13,34 @@ const startSession = (projectId, data) => {
 
 // End a collaboration session by session ID
 const endSession = (sessionId) => {
-    return httpCommon.put(`/collaboration-sessions/end/${sessionId}`, null, {
+    return httpCommon.put(`/collaboration/session/end/${sessionId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
     });
 };
 
+// Get session by id 
+
+const getSessionById =  async (sessionId) => {
+    try {
+        const response = await httpCommon.get(`/collaboration/session/${sessionId}`,
+           {
+            headers : {
+                Authorization : `Bearer ${getToken()}`
+            }
+           }
+           
+        );
+        return response.data.session;
+    } catch (error) {
+        console.error(`Error fetching session with ID ${sessionId}:`, error.response?.data || error.message);
+        throw new Error(error.response?.data?.message || 'Could not fetch the session');
+    }
+}
 // Get all active sessions by project ID
 const getActiveSessionsByProject = (projectId) => {
-    return httpCommon.get(`/collaboration-sessions/active/${projectId}`, {
+    return httpCommon.get(`/collaboration/session/active/${projectId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -31,7 +49,7 @@ const getActiveSessionsByProject = (projectId) => {
 
 // Get all sessions (active and ended) by project ID
 const getAllSessionsByProject = (projectId) => {
-    return httpCommon.get(`/collaboration-sessions/all/${projectId}`, {
+    return httpCommon.get(`/collaboration/session/all/${projectId}`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -42,6 +60,7 @@ const getAllSessionsByProject = (projectId) => {
 const collaborationSessionService = {
     startSession,
     endSession,
+    getSessionById,
     getActiveSessionsByProject,
     getAllSessionsByProject
 };

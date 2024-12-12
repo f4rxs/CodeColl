@@ -12,6 +12,7 @@ import MyProjects from './pages/MyProjectsPage';
 import ProjectPage from './pages/ProjectPage';
 import CollaboratorProfilePage from './components/ProfileCollaborator';
 import FileVersionPage from './components/FileVersion';
+import SessionPage from './components/Session';
 import { SocketProvider } from './Context/SocketContext';
 
 function App() {
@@ -45,6 +46,7 @@ function AuthenticatedRoutes({ onLogout }) {
       <Route path="/projects/:projectId" element={<ProjectPage />} />
       <Route path="/collaborator/:userId/permissions/:projectId" element={<CollaboratorProfilePage />} />
       <Route path="/file/:fileId/version/:versionNumber" element={<FileVersionPage />} />
+      <Route path="/projects/:projectId/session/:sessionId" element={<SessionPage />} />
       <Route path="*" element={<Navigate to="/home" />} />
     </Routes>
   );

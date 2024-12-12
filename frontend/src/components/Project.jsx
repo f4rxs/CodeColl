@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BsChat, BsPersonPlus } from 'react-icons/bs'; 
+import collaborationSessionService from '../services/collaborationSessionService'; // 
 import fileService from '../services/fileService';
 import projectCollaboratorService from '../services/projectCollaboratorService';
 import projectService from '../services/projectService';
@@ -22,6 +24,9 @@ const Project = ({ projectId }) => {
     const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
     const [userPermissions, setUserPermissions] = useState({});
     const [activityDescription, setActivityDescription] = useState('');
+    const [isFileTreeVisible, setIsFileTreeVisible] = useState(true);
+    const [isCollaboratorsVisible, setIsCollaboratorsVisible] = useState(true);
+    const [activeSession, setActiveSession] = useState(null);
 
     const navigate = useNavigate();
     const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
@@ -68,11 +73,32 @@ const Project = ({ projectId }) => {
                 console.error("Error fetching project details:", error);
             }
         };
+        const fetchActiveSession = async () => {
+            try {
+                const response = await collaborationSessionService.getActiveSessionsByProject(projectId);
+                console.log(response);
+                if (response.data.sessions.length > 0) {
+                    setActiveSession(response.data.sessions[0]); // Assuming one active session per project
+                }
+            } catch (error) {
+                console.error("Error fetching active session:", error);
+            }
+        };
 
         fetchFiles();
         fetchCollaborators();
         fetchProjectDetails();
+        fetchActiveSession();
     }, [projectId]);
+
+
+    const handleJoinSession = () => {
+        if (activeSession) {
+            navigate(`/projects/${projectId}/session/${activeSession._id}`);
+        } else {
+            alert('No active session to join.');
+        }
+    };
 
     const navigateToProfile = (userId) => {
         if (userPermissions.can_manage_collaborators) {
@@ -111,7 +137,7 @@ const Project = ({ projectId }) => {
                     loggedUser.id, projectId, activityDescription
                 );
                 alert("Activity has been posted");
-                setActivityDescription(""); 
+                setActivityDescription("");
             } else {
                 alert("Activity description cannot be empty!");
             }
@@ -164,6 +190,40 @@ const Project = ({ projectId }) => {
                 )}
             </h2>
 
+
+            {/* Toolbar for toggles */}
+            <div className="project-toolbar">
+                <div className="toggle-controls">
+                    <label className="toggle-switch">
+                        <input
+                            type="checkbox"
+                            checked={isFileTreeVisible}
+                            onChange={() => setIsFileTreeVisible(!isFileTreeVisible)}
+                        />
+                        <span className="slider"></span>
+                    </label>
+                    <span className="toggle-label">File Tree</span>
+
+                    <label className="toggle-switch">
+                        <input
+                            type="checkbox"
+                            checked={isCollaboratorsVisible}
+                            onChange={() => setIsCollaboratorsVisible(!isCollaboratorsVisible)}
+                        />
+                        <span className="slider"></span>
+                    </label>
+                    <span className="toggle-label">Collaborators</span>
+                    {activeSession && (
+                        <BsPersonPlus
+                            className="session-icon"
+                            onClick={handleJoinSession}
+                            title="Join Active Session"
+                        />
+                    )}
+                </div>
+            </div>
+
+
             {!isCollaborator ? (
                 <div className="project-overview">
                     <p>Created on: {new Date(project.created_at).toLocaleDateString()}</p>
@@ -171,21 +231,25 @@ const Project = ({ projectId }) => {
                     <p>Number of collaborators: {collaborators.length}</p>
                 </div>
             ) : (
-                <div className="project-container">
-                    <div className="file-sidebar">
-                        <FileTree
-                            files={files}
-                            onSelectFile={setSelectedFileId}
-                            projectId={projectId}
-                            onDeleteFile={isOwner ? handleDeleteFile : null}
-                            onLockFile={handleLockFile}
-                            showLockOption={isOwner || userPermissions.can_lock_files}
-                            userId={loggedUser.id}
-                            collaborators={collaborators}
-                            canEdit={userPermissions.can_edit}
-                        />
-                    </div>
 
+
+                <div className="project-container">
+                    {isFileTreeVisible && (
+                        <div className="file-sidebar">
+                            <FileTree
+                                files={files}
+                                onSelectFile={setSelectedFileId}
+                                projectId={projectId}
+                                onDeleteFile={isOwner ? handleDeleteFile : null}
+                                onLockFile={handleLockFile}
+                                showLockOption={isOwner || userPermissions.can_lock_files}
+                                userId={loggedUser.id}
+                                collaborators={collaborators}
+                                canEdit={userPermissions.can_edit}
+                            />
+
+                        </div>
+                    )}
                     <div className="main-content">
                         {selectedFileId ? (
                             <div>
@@ -213,39 +277,42 @@ const Project = ({ projectId }) => {
                         )}
                     </div>
 
-                    <div className="collaborators-sidebar">
-                        <div className="collaborators-header">
-                            <h3>Collaborators</h3>
-                            {(isOwner || userPermissions.can_manage_collaborators) && (
-                                <button
-                                    className="invite-button"
-                                    onClick={() => setIsInviteModalOpen(true)}
-                                >
-                                    +
-                                </button>
-                            )}
-                        </div>
-                        <ul>
-                            {collaborators.map(collaborator => (
-                                <li key={collaborator.user_id} className="collaborator-item">
+
+                    {isCollaboratorsVisible && (
+                        <div className="collaborators-sidebar">
+                            <div className="collaborators-header">
+                                <h3>Collaborators</h3>
+                                {(isOwner || userPermissions.can_manage_collaborators) && (
                                     <button
-                                        className="collaborator-btn"
-                                        onClick={() => navigateToProfile(collaborator.user_id)}
+                                        className="invite-button"
+                                        onClick={() => setIsInviteModalOpen(true)}
                                     >
-                                        <img
-                                            src={collaborator.user.profile_pic || defaultPfp }
-                                            alt={collaborator.name}
-                                            className="collaborator-avatar"
-                                        />
-                                        <div className="collaborator-details">
-                                            <strong>{collaborator.user.username}</strong>
-                                            <span className="collaborator-role">{collaborator.role}</span>
-                                        </div>                                     
+                                        +
                                     </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                                )}
+                            </div>
+                            <ul>
+                                {collaborators.map(collaborator => (
+                                    <li key={collaborator.user_id} className="collaborator-item">
+                                        <button
+                                            className="collaborator-btn"
+                                            onClick={() => navigateToProfile(collaborator.user_id)}
+                                        >
+                                            <img
+                                                src={collaborator.user.profile_pic || defaultPfp}
+                                                alt={collaborator.name}
+                                                className="collaborator-avatar"
+                                            />
+                                            <div className="collaborator-details">
+                                                <strong>{collaborator.user.username}</strong>
+                                                <span className="collaborator-role">{collaborator.role}</span>
+                                            </div>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             )}
 
