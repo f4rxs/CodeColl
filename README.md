@@ -174,7 +174,8 @@ CodeColl is a collaborative code editing and project management platform. It all
 - **[Axios](https://axios-http.com/)**: For API calls.
 - **[Framer Motion](https://www.framer.com/motion/)**: For animations.
 - **[Socket.IO Client](https://socket.io/)**: For real-time features.
-- **[zxcvbn]([(https://www.npmjs.com/package/zxcvbn))**: For Checking password Strength.
+- **[zxcvbn]((https://www.npmjs.com/package/zxcvbn))**: For Checking password Strength.
+  
 ### **Backend**
 - **[Express.js](https://expressjs.com/)**: Web server framework.
 - **[Sequelize](https://sequelize.org/)**: ORM for PostgreSQL.
@@ -183,7 +184,8 @@ CodeColl is a collaborative code editing and project management platform. It all
 - **[Bcrypt.js](https://github.com/dcodeIO/bcrypt.js/)**: For password hashing.
 - **[Nodemailer](https://nodemailer.com/)**: For sending emails.
 - **[OpenAI API](https://openai.com/api/)**: For AI-powered code suggestions.
-- 
+- **[Multer](https://www.npmjs.com/package/multer)**: For handling file uploads.
+
 
 ---
 
