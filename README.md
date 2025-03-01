@@ -1,5 +1,3 @@
-# **CodeColl Platform**
-
 ## **Project Description**
 
 CodeColl is a collaborative code editing and project management platform. It allows multiple users to collaborate in real-time on code files with advanced features such as file versioning, permission-based access, activity logging, and AI-powered code suggestions. The platform ensures security and scalability with robust backend architecture and a user-friendly React-based frontend.
@@ -281,4 +279,18 @@ Follow the steps below to set up and run the project:
   |                         |
   |   PostgreSQL / MongoDB  |
   |                         |
-  +-------------------------+
+  +-------------------------
+```
+## Images
+![Screenshot 2025-03-01 at 14-53-25 React App](https://github.com/user-attachments/assets/15c14d7c-3008-4048-bcad-a1c5936c270c)
+![Screenshot 2025-03-01 at 14-53-25 React App](https://github.com/user-attachments/assets/bc82d8ba-f666-4eb3-b2bb-7cabe8b7fce9)
+![Screenshot 2025-03-01 at 14-53-32 React App](https://github.com/user-attachments/assets/adbbfcf4-e5d7-4db6-bf04-cd567c944f82)
+![Screenshot 2025-03-01 at 14-57-01 React App](https://github.com/user-attachments/assets/08e13cee-6822-4f50-803a-fea254f29ffd)
+![Screenshot 2025-03-01 at 14-56-50 React App](https://github.com/user-attachments/assets/dfab3328-0999-4167-8a3e-5b2be5bd2d82)
+![Screenshot 2025-03-01 at 14-54-38 React App](https://github.com/user-attachments/assets/8078d3ea-cc60-48fe-bf78-eb5d6d309ea9)
+![Screenshot 2025-03-01 at 14-58-05 React App](https://github.com/user-attachments/assets/1904e6b4-9370-4ac2-9c45-b34bc90990bd)
+![Screenshot 2025-03-01 at 15-00-06 React App](https://github.com/user-attachments/assets/15d3aa02-aa6f-4d73-be31-e8e9607b8c9d)
+![Screenshot 2025-03-01 at 15-02-18 React App](https://github.com/user-attachments/assets/dc8ef306-6991-4788-aba5-274215beecb8)
+![Screenshot 2025-03-01 at 15-02-27 React App](https://github.com/user-attachments/assets/37cb09b0-4458-4f7d-b510-9efe16145293)
+![Screenshot 2025-03-01 at 15-04-14 React App](https://github.com/user-attachments/assets/48812a2d-f6d2-4b13-8424-94d397340af2)
+![Screenshot 2025-03-01 at 15-04-29 React App](https://github.com/user-attachments/assets/035be2a7-ad21-4f7f-8e45-1bb8b98225f0)
